@@ -1,0 +1,29 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}Edit Home{% endblock %}
+
+{% block content %}
+<div class="editHome containerCustom">
+    {% if user.is_authenticated and isAdmin %}
+    <div class="card p-3 mt-4">
+        <form id="sendHomeForm" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="custom-file">
+                <label class="custom-file-label" for="id_img">Maxsulot rasmi</label><br>
+                {{form.img}}
+            </div>
+            <script>
+                fileRun = true;
+            </script>
+            <!-- <label for="id_title">Maxsulot nomi</label><br> -->
+            {{form.title}}
+            <!-- <label for="id_des">Maxsulot haqida</label><br> -->
+            {{form.des}}
+            <!-- <label for="id_price">Maxsulot narxi</label><br> -->
+            {{form.price}}
+            <button type="button" class="btn btn-outline-dark mt-2" id="sendToHomeBtn">Saqlash</button>
+        </form>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

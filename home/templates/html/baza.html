@@ -1,0 +1,137 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% load indexObj %}
+{% block title %}Base{% endblock %}
+
+{% block style %}
+<style>
+
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="base containerCustom">
+    {% if user.is_authenticated and is_admin %}
+    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
+        Bazaga ma'lumot kiritish
+    </button>
+
+    <!-- The Modal -->
+    <div class="modal baseModal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Bazaga ma'lumot kiritish</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="enterForm" action="{% url 'base' %}" method="POST">
+                        {% csrf_token %}
+                        <label for="id_typeOfProduct">Maxsulot turi</label><br>
+                        {{base.typeOfProduct}}
+                        <label for="id_kg">Kg</label><br>
+                        {{base.kg}}
+                        <label for="id_insicePrice">Bazaga kirish narxi</label><br>
+                        {{base.insidePrice}}
+                        <label for="id_outsidePrice">Bazadan chiqish narxi</label><br>
+                        {{base.outsidePrice}}
+                        <label for="id_totalSum">To'liq summa</label><br>
+                        {{base.totalSum}}
+                        <label for="id_inputOrOutput">Yuk haqida</label><br>
+                        {{base.inputOrOutput}}
+                        <label for="id_byWhom" class="">Kim tomonidan?</label><br>
+                        {{base.byWhom}}
+                        <div class="d-flex justify-content-between mt-2">
+                            <div class="custom-control custom-switch">
+                                {{base.debt}}
+                                <label for="id_debt" class="custom-control-label">Yuk qarzga berilganmi?</label>
+                            </div>
+                            <button type="button" id="subBtn" class="btn btn-outline-dark">Jo'natish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Search -->
+    <div class="mt-3">
+        <form class="d-flex" action="{% url 'base' %}" method="GET">
+            <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success ml-2" type="submit">Search</button>
+        </form>
+    </div>
+    <!-- table -->
+    <div class="outTabel">
+        <table class="baseTabel">
+            <tr>
+                <th>Maxsulot turi</th>
+                <th>Kg</th>
+                <th>B'ga kirish narxi</th>
+                <th>B'ga chiqish narxi</th>
+                <th>To'liq summasi</th>
+                <th>Kim ?</th>
+                <th>Vaqti</th>
+                <th>Qarzi</th>
+                <th>Qarzbergan vaqti</th>
+            </tr>
+            {% for item in getBase %}
+            <tr>
+                <td><a class="openEdit" href="{% url 'editItem' item.id %}">{{item.typeOfProduct}}</a></td>
+                <td><span class="numMusk">{{item.kg}}</span> kg</td>
+                <td><span class="numMusk">{{item.insidePrice}}</span> so'm</td>
+                <td><span class="numMusk">{{item.outsidePrice}}</span> so'm</td>
+                <td><span class="numMusk">{{item.totalSum}}</span> so'm</td>
+                <td>{{item.byWhom}}</td>
+                <td>{{item.date}}</td>
+                {% if item.debt %}
+                <td><span class="numMusk text-danger">{{item.qarzSum}}</span> so'm</td>
+                {% else %}
+                <td><span class="numMusk">{{item.qarzSum}}</span> so'm</td>
+                {% endif %}
+                <td>{{item.oxirgiQarzBerganVaqti}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="outTabel outTabelBase">
+        <table>
+            <tr>
+                <th>Sotilgan yuklar summasi</th>
+                <th>Sotilgan yuklar kg</th>
+                <th>To'langan Qarzlar</th>
+                <th>Kutilayotgan foyda</th>
+                <th>Sotilgan yukning 5 % summasi</th>
+            </tr>
+
+            <td><span class="numMusk">{{totalData.priceSum}}</span> so'm</td>
+            <td><span class="numMusk">{{totalData.kgSum}}</span> kg</td>
+            <td><span class="numMusk">{{totalData.debtSum}}</span> so'm</td>
+            <td><span class="numMusk">{{totalData.expectedBenefit}}</span> so'm</td>
+            <td>
+                {% if who %}
+                <a class="text-decoration-none" href="{% url 'payToAgent' %}">
+                    <span class="numMusk">{% fivePre totalData.pratsent %}</span> so'm
+                </a>
+                {% else %}
+                <span class="numMusk">{% fivePre totalData.pratsent %}</span> so'm
+                {% endif %}
+            </td>
+            </td>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-danger">Bu bo'limga vaqat admin kirish huquqiga ega</div>
+    <a href="{% url 'home' %}" class="btn btn-outline-success mt-4">Bosh sahifaga qaytish</a>
+    {% endif %}
+
+    <script>
+        id_kg.value = '';
+        id_insidePrice.value = '';
+        id_outsidePrice.value = '';
+        id_totalSum.value = '';
+    </script>
+
+</div>
+
+{% endblock %}

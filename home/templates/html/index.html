@@ -1,0 +1,78 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %} Don Maxsulotlari {% endblock %}
+{% block content %}
+<div class="homePage">
+    <div class="container">
+        {% if user.is_authenticated and isAdmin %}
+
+        <div class="text-danger">{{error}}</div>
+        <button type="button" class="btn btn-dark mt-3" data-toggle="modal" data-target="#myModal">
+            Asosiy qsimga ma'lumot qo'shish
+        </button>
+
+        <!-- The Modal -->
+        <div class="modal baseModal" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Asosiy qsimga ma'lumot kiritish</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="sendHomeForm" action="{% url 'home' %}" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="custom-file">
+                                <label class="custom-file-label" for="id_img">Maxsulot rasmi</label><br>
+                                {{homeForm.img}}
+                            </div>
+                            <script>
+                                fileRun = true;
+                            </script>
+                            <!-- <label for="id_title">Maxsulot nomi</label><br> -->
+                            {{homeForm.title}}
+                            <!-- <label for="id_des">Maxsulot haqida</label><br> -->
+                            {{homeForm.des}}
+                            <!-- <label for="id_price">Maxsulot narxi</label><br> -->
+                            {{homeForm.price}}
+                            <button type="button" class="btn btn-outline-dark mt-2" id="sendToHomeBtn">Saqlash</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            {% for item in home %}
+            <div class="col-md-4 col-sm-6 mt-3">
+                <div class="card">
+                    {% if item.img %}
+                    <div class="img"
+                        style="background: url('{{item.img.url}}');background-repeat: no-repeat;background-size: cover;background-position: center center;">
+                    </div>
+                    {% endif %}
+                    <div class="p-3">
+                        <div class="mb-2">{{item.title}}</div>
+                        <div class="">{{item.des}}</div>
+                        <h2 class="text-bold">
+                            <span class="price numMusk">{{item.price}}</span> so'm
+                        </h2>
+                    </div>
+                    {% if user.is_authenticated and isAdmin %}
+                    <form action="{% url 'deleteHome' item.id %}" class="d-flex justify-content-between pl-3 pr-3 pb-3"
+                        method="POST">
+                        {% csrf_token %}
+                        <a href="{% url 'editHome' item.id %}" class="btn btn-outline-warning openEditModal">Edit</a>
+                        <button class="btn btn-outline-danger">Delete</button>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

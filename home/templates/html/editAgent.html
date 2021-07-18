@@ -1,0 +1,85 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}Agents{% endblock %}
+
+{% block content %}
+<div class="editAgent containerCustom">
+    {% if user.is_authenticated and isAdmin %}
+    <button type="button" class="btn btn-outline-warning mt-3" data-toggle="collapse" data-target="#changeMain">Asosiy
+        qsimni
+        o'zgartirish</button>
+    <div class="row mt-1 mb-5">
+        <div class="col-md-6 mt-3">
+            <div class="card collapse" id="changeMain">
+                <div class="changed d-flex justify-content-end">
+                    {% if agent.changed == True %}
+                    <div class="badge badge-warning">
+                        O'zgartirilgan
+                    </div>
+                    {% endif %}
+                </div>
+                <form id="enterForm" action="" method="POST">
+                    {% csrf_token %}
+                    <label for="id_typeOfProduct">Maxsulot turi</label><br>
+                    {{form.typeOfProduct}}
+                    <label for="id_kg">Kg</label><br>
+                    {{form.kg}}
+                    <label for="id_orginalPrice">Asil narxi</label><br>
+                    {{form.orginalPrice}}
+                    <label for="id_price">Sotilayotgan narxi</label><br>
+                    {{form.price}}
+                    <label for="id_totalSum">To'liq summasi</label><br>
+                    {{form.totalSum}}
+                    <label for="id_byWhom" class="">Kim tomonidan?</label><br>
+                    {{form.byWhom}}
+                    <div class="d-flex justify-content-between mt-3">
+                        <button type="button" id="deleteBtn" class="btn btn-primary">Delete</button>
+                        <button type="button" id="subBtn" class="btn btn-outline-dark">Saqlash</button>
+                    </div>
+                </form>
+                <form action="{% url 'delete' formId %}" id="deleteForm" method="POST">
+                    {% csrf_token %}
+                </form>
+            </div>
+        </div>
+        {% if agent.debt %}
+        <div class="col-md-6 mt-3">
+            <div class="card">
+                <div class="mb-2 d-flex justify-content-between" id="totalLend">
+                    {% if error %}
+                    <div class="badge badge-danger">
+                        {{error}}
+                    </div>
+                    {% endif %}
+                    <div class="badge badge-success">
+                        <span class="numMusk">{{totalLend}}</span> so'm to'lagan
+                    </div>
+                </div>
+                <form id="postQarz" action="" method="POST">
+                    {% csrf_token %}
+                    <label for="id_qarzSum">Oxirgi marta bergan qarz summasi</label> <br>
+                    {{form2.qarzSum}}
+                    <label for="id_oxirgiQarzBerganVaqti">Oxirgi marta bergan qarz vaqti</label> <br>
+                    {{form2.oxirgiQarzBerganVaqti}}
+                    <div class="d-flex justify-content-end mt-3">
+                        <button type="button" id="subBtnQarz" class="btn btn-outline-dark">Saqlash</button>
+                    </div>
+                </form>
+                <script>
+                    if (id_oxirgiQarzBerganVaqti.value == "1900-01-01") {
+                        let d = new Date();
+                        let arr = d.toLocaleDateString().split('/');
+                        let month = (arr[0].length == 1) ? "0" + arr[0] : arr[0];
+                        let day = (arr[1].length == 1) ? "0" + arr[1] : arr[1];
+                        id_oxirgiQarzBerganVaqti.value = `${arr[2]}-${month}-${day}`;
+                    }
+                    id_qarzSum.value = '';
+                </script>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

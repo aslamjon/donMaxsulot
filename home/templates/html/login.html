@@ -1,0 +1,40 @@
+{% extends 'html/base.html' %}
+
+{% block title %}Kirish{% endblock %}
+
+{% block style %}
+<style>
+    input {
+        margin: 5px;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="center">
+    <div class=" divsignup border_r">
+        <form action="{% url 'login' %}" method="post" class="d-flex justify-content-center">
+            {% csrf_token %}
+            <div class="card" style="width: 350px;padding: 10px;margin-top: 20px;">
+                <h3 style="text-align: center;">Sign In</h3>
+                <h6 style="color: red;">{{error}}</h6>
+                {{user.username}}
+                {{user.password}}
+                <div class="d-flex justify-content-end mt-1">
+                    <button type="submit" class="btn btn-dark" class="sign-btn">Sign In</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    id_username.setAttribute('placeholder', "Username");
+    id_password.setAttribute('placeholder', "Parol");
+
+    id_username.setAttribute('class', "form-control");
+    id_password.setAttribute('class', "form-control");
+</script>
+
+{% endblock %}

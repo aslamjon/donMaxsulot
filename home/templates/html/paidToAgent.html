@@ -1,0 +1,31 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% load indexObj %}
+{% block title %}Agents{% endblock %}
+
+{% block content %}
+<div class="paidAgent containerCustom">
+    {% if user.is_authenticated and isAdmin %}
+    <div class="outPaidAgentTable">
+        <table>
+            <tr>
+                <th>Agent nomi</th>
+                <th>Umumiy to'lagan so'm</th>
+                <th>Oxirgi to'lagan so'm</th>
+                <th>Oxirgi to'lagan vaqti</th>
+            </tr>
+            <tr>
+                {% for item in getData %}
+                <td>{{item.who}}</td>
+                <td>{{item.payAgent}}</td>
+                <td>{{item.lastPayAgent}}</td>
+                <td>{{item.date}}</td>
+                {% endfor %}
+            </tr>
+        </table>
+    </div>
+
+    {% endif %}
+</div>
+
+{% endblock %}

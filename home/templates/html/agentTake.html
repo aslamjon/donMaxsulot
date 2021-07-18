@@ -1,0 +1,173 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% load indexObj %}
+{% block title %}Agents{% endblock %}
+
+{% block content %}
+<div class="agentTake base containerCustom">
+    {% if user.is_authenticated and isAdmin %}
+    <div class="text-danger">{{error}}</div>
+    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
+        Savdo tochkasiga qo'shish
+    </button>
+    {% if who %}
+    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#payToAgent">
+        Agentga pul to'lash
+    </button>
+    <div class="modal baseModal" id="payToAgent">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Agentga pul to'lash</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="payAgentForm" action="{% url 'payToAgent' %}" method="POST">
+                        {% csrf_token %}
+                        {{payAgent.who}}
+                        {{payAgent.payAgent}}
+
+                        <button type="button" id="payAgentSubBtn" class="btn btn-outline-dark">Saqlash</button>
+                    </form>
+                    <script>
+                        id_who.value = "{{ who }}";
+                        id_payAgent.value = '';
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <!-- The Modal -->
+    <div class="modal baseModal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Bazaga ma'lumot kiritish</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="enterForm" action="{% url 'agentTake' %}" method="POST">
+                        {% csrf_token %}
+                        <label for="id_typeOfProduct">Maxsulot turi</label><br>
+                        {{qarzForm.typeOfProduct}}
+                        <!-- <label for="id_kg">Kg</label><br> -->
+                        {{qarzForm.kg}}
+                        <!-- <label for="id_orginalPrice">Yukning asil narxi</label><br> -->
+                        {{qarzForm.orginalPrice}}
+                        <!-- <label for="id_price">Sotilayotgan narxi</label><br> -->
+                        {{qarzForm.price}}
+                        <!-- <label for="id_totalSum">To'liq summasi</label><br> -->
+                        {{qarzForm.totalSum}}
+                        <label for="id_byWhom" class="">Kim tomonidan?</label><br>
+                        {{qarzForm.byWhom}}
+                        <div class="d-flex justify-content-between mt-2">
+                            <div class="custom-control custom-switch">
+                                {{qarzForm.debt}}
+                                <label for="id_debt" class="custom-control-label">Yuk qarzga berilganmi?</label>
+                            </div>
+                            <button type="button" id="subBtn" class="btn btn-outline-dark">Jo'natish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        id_kg.value = '';
+        id_orginalPrice.value = '';
+        id_price.value = '';
+        id_totalSum.value = '';
+    </script>
+
+    <!-- Search -->
+    <div class="mt-3">
+        <form class="" action="{% url 'agentTake' %}" method="GET">
+            <div class="d-flex">
+                <input class="form-control me-2" name="search" type="search" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success ml-2" type="submit">Search</button>
+            </div>
+            <div class="custom-control custom-switch mt-1">
+                <input type="checkbox" name="checkbox" class="custom-control-input" id="switch111">
+                <label class="custom-control-label" for="switch111">Bir oylik malumotni ko'rish</label>
+            </div>
+        </form>
+    </div>
+
+    <div class="outAgentTabel">
+        <table class="agentTabel baseTabel">
+            <tr>
+                <th>Kim tomonidan</th>
+                <th>Maxsulot turi</th>
+                <th>Kg</th>
+                <th>Asil narxi</th>
+                <th>Sotilayotgan narxi</th>
+                <th>To'liq summasi</th>
+                <th>Vaqti</th>
+                <th>oxirgi bergan qarxi</th>
+                <th>Vaqti</th>
+            </tr>
+
+            {% for index in range %}
+            {% my_tag getAgentsData index as obj %}
+            {% my_tag getInputQarz index as obj2 %}
+            <tr>
+                <td class="">
+                    <a class="openEdit text-capitalize" href="{% url 'editAgent' obj.id %}">{{obj.byWhom}}</a>
+                </td>
+                <td>{{obj.typeOfProduct}}</td>
+                <td><span class="numMusk">{{obj.kg}}</span> kg</td>
+                <td><span class="numMusk">{{obj.orginalPrice}}</span> so'm</td>
+                <td><span class="numMusk">{{obj.price}}</span> so'm</td>
+                <td>{% if obj.debt == True %}
+                    <span class="numMusk text-danger">{{obj.totalSum}}</span> so'm
+                    {% else %}
+                    <span class="numMusk">{{obj.totalSum}}</span> so'm
+                    {% endif %}
+                </td>
+                <td>{{obj.date}}</td>
+                <td>{% filterSth obj2.qarzSum 0 as qarzSumResult %}
+                    {% if not qarzSumResult == '' %}
+                    <span class="numMusk">{{qarzSumResult}}</span> so'm
+                    {% endif %}
+                </td>
+                <td>{% filterDate obj2.oxirgiQarzBerganVaqti as fDate %}{{fDate}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+    <div class="outTotalAgent">
+        <table class="TotalAgentTabel baseTabel">
+            <tr>
+                <th>Sotilgan yuklar summasi</th>
+                <th>Sotilgan yuklar kg</th>
+                <th>To'langan Qarzlar</th>
+                <th>Kutilayotgan foyda</th>
+                <th>Sotilgan yukning 5 % summasi</th>
+            </tr>
+            <tr>
+                <td><span class="numMusk">{{totalRes.priceSum}}</span> so'm</td>
+                <td><span class="numMusk">{{totalRes.kgSum}}</span> kg</td>
+                <td><span class="numMusk">{{totalRes.debtSum}}</span> so'm</td>
+                <td><span class="numMusk">{{totalRes.expectedBenefit}}</span> so'm</td>
+                <td>
+                    {% if who %}
+                    <a class="text-decoration-none" href="{% url 'payToAgent' %}">
+                        <span class="numMusk">{% fivePre totalRes.pratsent %}</span> so'm
+                    </a>
+                    {% else %}
+                    <span class="numMusk">{% fivePre totalRes.pratsent %}</span> so'm
+                    {% endif %}
+                </td>
+            </tr>
+        </table>
+    </div>
+    {% else %}
+    <div class="text-danger">Bu bo'limga vaqat admin kirish huquqiga ega</div>
+    <a href="{% url 'home' %}" class="btn btn-outline-success mt-4">Bosh sahifaga qaytish</a>
+
+    {% endif %}
+</div>
+{% endblock %}

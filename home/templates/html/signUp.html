@@ -1,0 +1,41 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %} Ro'xatdan o'tish {% endblock %}
+
+{% block style %}
+<style>
+    input,
+    button {
+        margin: 5px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<form action="{% url 'signup' %}" method="POST" class="d-flex justify-content-center">
+    {% csrf_token %}
+    <!-- {{user.as_p}} -->
+    <div class="card" style="width: 350px;padding: 10px;margin-top: 20px;">
+        <h4 style="color: red;">{{error}}</h4>
+        <!-- <label for="id_username">Username: </label> -->
+        {{user.username}}
+        <!-- <label for="id_password1">Parol: </label> -->
+        {{user.password1}}
+        <!-- <label for="id_password2">Parolni tasdiqlash: </label> -->
+        {{user.password2}}
+
+        <button class="btn btn-dark" type="submit">Submit</button>
+    </div>
+</form>
+
+<script>
+    id_username.setAttribute('placeholder', "Username");
+    id_password1.setAttribute('placeholder', "Parol");
+    id_password2.setAttribute('placeholder', "Parolni tasdiqlash");
+
+    id_username.setAttribute('class', "form-control");
+    id_password1.setAttribute('class', "form-control");
+    id_password2.setAttribute('class', "form-control");
+</script>
+{% endblock %}
