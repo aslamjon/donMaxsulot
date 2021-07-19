@@ -30,10 +30,10 @@ $(function() {
     var total_amount = function() {
         // var sum = $('#id_kg').val().replace(',','') * $('#id_insidePrice').val().replace(',','');
         var sum;
-        if ($('#id_insidePrice').unmask().val() == undefined){
+        if ($('#id_outsidePrice').unmask().val() == undefined){
             var sum = $('#id_kg').unmask().val() * $('#id_price').unmask().val();
         } else {
-            var sum = $('#id_kg').unmask().val() * $('#id_insidePrice').unmask().val();
+            var sum = $('#id_kg').unmask().val() * $('#id_outsidePrice').unmask().val();
         }
         $("#id_totalSum").val(numberWithCommas(sum));
         // $("#id_totalSum").mask("#,###",{reverse: true});
@@ -63,10 +63,13 @@ try {
             if (id_insidePrice.value.includes(',')) {
                 $('.amount').unmask()
             }
-            if (isNumber(id_kg.value) && isNumber(id_insidePrice.value)) {
+            if (id_outsidePrice.value.includes(',')) {
+                $('.amount').unmask()
+            }
+            if (isNumber(id_kg.value) && isNumber(id_outsidePrice.value)) {
                 enterForm.submit();
                 id_kg.value = '';
-                id_insidePrice.value = '';
+                id_outsidePrice.value = '';
             } else
                 alert("Harf yoki belgi kiritilgan bo'lishi mumkin. Iltimos qayta urunib ko'ring");
         } catch (error) {
@@ -160,5 +163,5 @@ try {
             alert("Harf yoki belgi kiritilgan bo'lishi mumkin. Iltimos qayta urunib ko'ring");
     }
 } catch (error) {
-    console.log(error);
+    
 }

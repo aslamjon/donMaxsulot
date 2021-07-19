@@ -29,6 +29,10 @@ body {
   -webkit-mask-repeat: no-repeat;
 }
 
+.bd-green {
+  color: #198754;
+}
+
 nav .navbar-toggler {
   outline: none;
 }

@@ -27,3 +27,8 @@ def filterSth(data, without):
 @register.simple_tag
 def fivePre(num):
     return int((num*5)/100)
+
+
+@register.simple_tag
+def forAgent(num):
+    return int(num)+200

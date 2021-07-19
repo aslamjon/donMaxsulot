@@ -65,31 +65,35 @@
     <div class="outTabel">
         <table class="baseTabel">
             <tr>
+                <th>Kim ?</th>
                 <th>Maxsulot turi</th>
                 <th>Kg</th>
-                <th>B'ga kirish narxi</th>
-                <th>B'ga chiqish narxi</th>
+                <th>Kirish narxi</th>
+                <th>Chiqish narxi</th>
                 <th>To'liq summasi</th>
-                <th>Kim ?</th>
                 <th>Vaqti</th>
                 <th>Qarzi</th>
-                <th>Qarzbergan vaqti</th>
+                <th>Oxirgi qarzni bergan vaqti</th>
             </tr>
             {% for item in getBase %}
             <tr>
-                <td><a class="openEdit" href="{% url 'editItem' item.id %}">{{item.typeOfProduct}}</a></td>
+                <td><a class="openEdit" href="{% url 'editItem' item.id %}">{{item.byWhom}}</a></td>
+                <td>{{item.typeOfProduct}}</td>
                 <td><span class="numMusk">{{item.kg}}</span> kg</td>
                 <td><span class="numMusk">{{item.insidePrice}}</span> so'm</td>
                 <td><span class="numMusk">{{item.outsidePrice}}</span> so'm</td>
                 <td><span class="numMusk">{{item.totalSum}}</span> so'm</td>
-                <td>{{item.byWhom}}</td>
                 <td>{{item.date}}</td>
                 {% if item.debt %}
                 <td><span class="numMusk text-danger">{{item.qarzSum}}</span> so'm</td>
                 {% else %}
                 <td><span class="numMusk">{{item.qarzSum}}</span> so'm</td>
                 {% endif %}
-                <td>{{item.oxirgiQarzBerganVaqti}}</td>
+                <td>
+                    {% if not item.oxirgiQarzBerganVaqti == None %}
+                    {{item.oxirgiQarzBerganVaqti}}
+                    {% endif %}
+                </td>
             </tr>
             {% endfor %}
         </table>
@@ -106,8 +110,8 @@
 
             <td><span class="numMusk">{{totalData.priceSum}}</span> so'm</td>
             <td><span class="numMusk">{{totalData.kgSum}}</span> kg</td>
-            <td><span class="numMusk">{{totalData.debtSum}}</span> so'm</td>
-            <td><span class="numMusk">{{totalData.expectedBenefit}}</span> so'm</td>
+            <td><span class="numMusk text-success">{{totalData.debtSum}}</span> so'm</td>
+            <td><span class="numMusk bd-green">{{totalData.expectedBenefit}}</span> so'm</td>
             <td>
                 {% if who %}
                 <a class="text-decoration-none" href="{% url 'payToAgent' %}">

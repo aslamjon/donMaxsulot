@@ -1,5 +1,6 @@
 {% extends 'html/base.html' %}
 {% load static %}
+{% load indexObj %}
 {% block title %} Don Maxsulotlari {% endblock %}
 {% block content %}
 <div class="homePage">
@@ -57,7 +58,14 @@
                         <div class="mb-2">{{item.title}}</div>
                         <div class="">{{item.des}}</div>
                         <h2 class="text-bold">
-                            <span class="price numMusk">{{item.price}}</span> so'm
+                            <span class="price numMusk">
+                                {% if isAgent %}
+                                {% forAgent item.price as forAgents %}
+                                {{forAgents}}
+                                {% else %}
+                                {{item.price}}
+                                {% endif %}
+                            </span> so'm
                         </h2>
                     </div>
                     {% if user.is_authenticated and isAdmin %}

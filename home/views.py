@@ -12,6 +12,7 @@ from datetime import date, datetime, timedelta
 import json
 
 admins = ['aslamjon', 'qobiljon']
+agentsList = ['test']
 
 
 def checkIsAdmin(request, html, sendObjToAdmin, sendObjToAnonimUser):
@@ -19,7 +20,10 @@ def checkIsAdmin(request, html, sendObjToAdmin, sendObjToAnonimUser):
         sendObjToAdmin['isAdmin'] = True
         return render(request, html, sendObjToAdmin)
     else:
-        sendObjToAdmin['isAdmin'] = False
+        if request.user.username in agentsList:
+            sendObjToAnonimUser['isAgent'] = True
+            return render(request, html, sendObjToAnonimUser)
+        sendObjToAnonimUser['isAdmin'] = False
         return render(request, html, sendObjToAnonimUser)
 
 
@@ -166,6 +170,7 @@ def base(request):
                                             * int(request.POST.get('insidePrice')))
                     searchR[0].qarzSum += (int(request.POST.get('kg'))
                                            * int(request.POST.get('insidePrice')))
+                    searchR[0].debt = True
                 else:
                     searchR[0].kg += int(request.POST.get('kg'))
                     searchR[0].totalSum += (int(request.POST.get('kg'))
