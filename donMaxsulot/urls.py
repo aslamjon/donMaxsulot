@@ -20,6 +20,9 @@ from django.conf import settings
 from home import views
 from home.views import base, editItem, agentTake, editAgent, delete, deleteHome, editHome, payToAgent, deleteBase
 
+from django.views.static import serve
+from django.conf.urls import url
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
@@ -38,4 +41,9 @@ urlpatterns = [
     path('savdo/<int:agent_id>', editAgent, name='editAgent'),
     path('savdo/delete/<int:agent_id>', delete, name='delete'),
     path('savdo/payToAgent', payToAgent, name='payToAgent'),
+    url(r'^media/(?P<path>.*)$', serve,
+        {'document_root':       settings.MEDIA_ROOT}),
+    url(r'^static/(?P<path>.*)$', serve,
+        {'document_root': settings.STATIC_ROOT}),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
