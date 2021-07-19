@@ -1,0 +1,82 @@
+.base {
+    margin-top: 20px;
+    .baseModal {
+        form {
+            label {
+                margin: 5px;
+                // margin-left: 5px;
+            }
+        }
+    }
+    .baseTabel {
+        margin-top: 20px;
+        th {
+            padding: 5px 10px;
+            text-align: center;
+        }
+        tr {
+            &:first-child {
+                border-top-left-radius: 10px;
+                border-top-right-radius: 10px;
+            }
+            &:last-child {
+                border-bottom-left-radius: 10px;
+                border-bottom-right-radius: 10px;
+            }
+            box-shadow: -3px 0px 15px -8px grey;
+            td {
+                text-align: center;
+                border-left: 1px solid grey;
+                border-right: 1px solid grey;
+                padding: 5px 10px;
+                &:first-child {
+                    border-left: none;
+                }
+                &:last-child {
+                    border-right: none;
+                }
+                .openEdit {
+                    text-decoration: none;
+                }
+            }
+            .inputToBase {
+                color: green;
+            }
+            .outToBase {
+                color: red;
+            }
+        }
+    }
+    .outTabelBase {
+        margin-top: 20px;
+        table {
+            tr {
+                td,
+                th {
+                    padding: 5px;
+                    text-align: center;
+                }
+                td {
+                    border: 1px solid rgb(189, 189, 189);
+                    &:first-child {
+                        border-left: none;
+                    }
+                    &:last-child {
+                        border-right: none;
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width: 1085px) {
+    .base {
+        .outTabel {
+            overflow-x: auto;
+            padding: 0 2px;
+        }
+        .baseTabel {
+            width: 1025px;
+        }
+    }
+}

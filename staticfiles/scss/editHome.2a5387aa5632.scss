@@ -1,0 +1,12 @@
+.editHome {
+    display: flex;
+    justify-content: center;
+    .card {
+        max-width: 500px;
+        form {
+            input {
+                margin: 10px 0;
+            }
+        }
+    }
+}

@@ -1,0 +1,38 @@
+.paidAgent {
+    .outPaidAgentTable {
+        display: flex;
+        justify-content: center;
+        overflow-x: auto;
+        padding: 5px;
+        table {
+            margin-top: 20px;
+            box-shadow: 0 0 10px 1px rgb(204, 204, 204);
+            border-radius: 10px;
+            tr {
+                td,
+                th {
+                    padding: 5px 10px;
+                    text-align: center;
+                }
+                td {
+                    border: 1px solid rgb(219, 219, 219);
+                    &:first-child {
+                        border-left: none;
+                    }
+                    &:last-child {
+                        border-right: none;
+                    }
+                }
+            }
+        }
+    }
+}
+@media (max-width: 700px) {
+    .paidAgent {
+        .outPaidAgentTable {
+            table {
+                width: 650px;
+            }
+        }
+    }
+}
