@@ -1,0 +1,35 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% load indexObj %}
+{% block title %}Add Agents{% endblock %}
+
+{% block content %}
+    <div class="addAgents d-flex flex-column containerCustom mt-4">
+        {% if user.is_authenticated and isAdmin %}
+        <div class="row">
+            <div class="col-md-6 p-5">
+                <div class="card p-3" style="">
+                    <div class="text-center mb-2">Agent nomini qo'shish</div>
+                    <form action="{% url 'addAgent' %}" method="post">
+                        {% csrf_token %}
+                        {{agentForm.name}}
+                        <button type="submit" class="btn btn-dark mt-3">Qo'shish</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <div class="list mt-5">
+            <div class="">Agentlar ro'yxati</div>
+            <ol>
+                {% for item in agents %}
+                    <li><a class="text-decoration-none" href="{% url 'deleteAgent' item.id %}">{{item.name}}</a></li>
+                {% endfor %}
+            </ol>
+        </div>
+        {% else %}
+        <div class="text-danger">Bu bo'limga vaqat admin kirish huquqiga ega</div>
+        <a href="{% url 'home' %}" class="btn btn-outline-success mt-4">Bosh sahifaga qaytish</a>
+        {% endif %}
+    </div>
+{% endblock %}

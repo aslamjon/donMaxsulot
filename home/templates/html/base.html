@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'css/normalize.css'%}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
+    <link rel="stylesheet" href="{% static 'css/privet_bootstrap.css'%}">
     <link rel="stylesheet" href="{% static 'css/animate.css'%}">
     <link rel="stylesheet" href="{% static 'css/style.css'%}">
     <title>
@@ -31,16 +32,37 @@
                         <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'base' %}">Baza</a>
+                        <a class="nav-link" href="{% url 'baza' %}">Baza</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'base' %}">Bozor</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'agentTake' %}">Savdo tochkasi</a>
                     </li>
                     <li>
                     <li class="nav-item">
-                        {% if user.is_authenticated %}
-                        <div class="d-flex" style="margin-top: 8px;">
-                            <span class="text-white-50">{{user}}</span>
+                        {% if not user.is_authenticated %}
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Kirish</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'signup' %}">Ro'xatdan o'tish</a>
+                    </li>
+                    {% endif %}
+                    </li>
+                    {% if user.is_authenticated and isAdmin %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'addAgent' %}">Qo'shimchalar</a>
+                    </li>
+                    {% endif %}
+                </ul>
+                {% if user.is_authenticated %}
+                <ul class="list-unstyled mb-0">
+                    <li>
+                        <div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center text-secondary text-capitalize mr-3">{{user}}</div>
                             <form action="{% url 'logout' %}" method="POST">
                                 {% csrf_token %}
                                 <!-- doim post usulida malumot jo'natayotganda shuni kiritish kerak -->
@@ -48,17 +70,9 @@
                                     type="submit">Logout</button>
                             </form>
                         </div>
-                        {% else %}
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'signup' %}">Sign Up</a>
-                    </li>
-                    {% endif %}
                     </li>
                 </ul>
+                {% endif %}
             </div>
         </div>
     </nav>

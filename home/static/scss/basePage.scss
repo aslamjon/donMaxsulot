@@ -6,6 +6,12 @@
                 margin: 5px;
                 // margin-left: 5px;
             }
+            input {
+                margin: 10px 0;
+            }
+            #id_byWhom {
+                margin-top: 0;
+            }
         }
     }
     .baseTabel {
@@ -69,14 +75,23 @@
         }
     }
 }
-@media (max-width: 1085px) {
+@media (max-width: 1182px) {
     .base {
         .outTabel {
             overflow-x: auto;
             padding: 0 2px;
         }
         .baseTabel {
-            width: 1025px;
+            width: 1130px;
+        }
+    }
+}
+@media (max-width: 908px) {
+    .base {
+        .outTabelBase {
+            table {
+                width: 848px;
+            }
         }
     }
 }

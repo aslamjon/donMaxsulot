@@ -1,0 +1,77 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% block title %}Edit{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated and isAdmin %}
+    <div class="edit editRealBaza containerCustom">
+        <button type="button" class="btn btn-outline-warning mb-3 " data-toggle="collapse" data-target="#changeMain">Asosiy qsimni o'zgartirish</button>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="card collapse" id="changeMain">
+                    <div class="changed">
+                        {% if product.changed == True %}
+                        <div class="alert alert-primary" role="alert">
+                            O'zgartirilgan
+                        </div>
+                        {% endif %}
+                    </div>
+                    <form id="enterForm" action="" method="POST">
+                        {% csrf_token %}
+                        <label for="id_typeOfProduct">Maxsulot turi</label><br>
+                        {{form.typeOfProduct}}
+                        <label for="id_kg">Kg</label><br>
+                        {{form.kg}}
+                        <label for="id_outsidePerice">Narxi</label><br>
+                        {{form.price}}
+                        <label for="id_totalSum">To'liq summa</label><br>
+                        {{form.totalSum}}
+                        <label for="id_byWhom" class="">Kim tomonidan?</label><br>
+                        {{form.byWhom}}
+                        <div class="custom-control custom-switch mt-2">
+                            {{form.debt}}
+                            <label for="id_debt" class="custom-control-label">Yuk qarzga berilganmi?</label>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button type="button" id="deleteBtn" class="btn btn-primary mt-3">Delete</button>
+                            <button type="button" id="subBtn" class="btn btn-outline-dark">Saqlash</button>
+                        </div>
+                    </form>
+                    <form action="{% url 'deleteBaza' formId %}" id="deleteForm" method="post">
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-6">
+                {% if product.debt %}
+            <div class="card">
+                <div class="mb-2 d-flex justify-content-between" id="totalLend">
+                    {% if error %}
+                    <div class="badge badge-danger">
+                        {{error}}
+                    </div>
+                    {% endif %}
+                    <div class="badge badge-success">
+                        <span class="numMusk">{{product.totalLend}}</span> so'm to'lagan
+                    </div>
+                </div>
+                <form id="lendDebtBaza" action="" method="post">
+                    {% csrf_token %}
+                    {{LendDebtForBaza.lastLendDebt}}
+                    {{LendDebtForBaza.oxirgiQarzBerganVaqti}}
+                    <button id="lendDebtBazaBtn" class="btn btn-outline-dark" type="button">Saqlash</button>
+                </form>
+                <script>
+                    id_lastLendDebt.value = '';
+                </script>
+            </div>
+            {% endif %}
+            </div>
+        </div>
+    </div>
+{% else %}
+<div class="">Tizimga kirilmagan tizimga kirib qaytadan urunib ko'ring</div>
+{% endif %}
+
+
+{% endblock %}

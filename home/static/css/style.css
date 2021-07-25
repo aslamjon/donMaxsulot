@@ -36,6 +36,9 @@ body {
 nav .navbar-toggler {
   outline: none;
 }
+nav .navbar-collapse ul li a {
+  cursor: pointer;
+}
 
 .text-bold {
   font-weight: bold;
@@ -84,6 +87,12 @@ nav .navbar-toggler {
 }
 .base .baseModal form label {
   margin: 5px;
+}
+.base .baseModal form input {
+  margin: 10px 0;
+}
+.base .baseModal form #id_byWhom {
+  margin-top: 0;
 }
 .base .baseTabel {
   margin-top: 20px;
@@ -142,13 +151,18 @@ nav .navbar-toggler {
   border-right: none;
 }
 
-@media (max-width: 1085px) {
+@media (max-width: 1182px) {
   .base .outTabel {
     overflow-x: auto;
     padding: 0 2px;
   }
   .base .baseTabel {
-    width: 1025px;
+    width: 1130px;
+  }
+}
+@media (max-width: 908px) {
+  .base .outTabelBase table {
+    width: 848px;
   }
 }
 .edit {
@@ -202,14 +216,17 @@ nav .navbar-toggler {
   width: 900px;
 }
 
-@media (max-width: 1117px) {
+@media (max-width: 1188px) {
   .agentTake .outAgentTabel {
     overflow-x: auto;
     padding: 0 2px;
   }
   .agentTake .agentTabel {
-    width: 1060px;
+    width: 1128px;
   }
+}
+.editAgent #enterForm label {
+  margin: 5px;
 }
 .editAgent .card {
   padding: 20px;
@@ -247,6 +264,62 @@ nav .navbar-toggler {
 @media (max-width: 700px) {
   .paidAgent .outPaidAgentTable table {
     width: 650px;
+  }
+}
+.baza {
+  margin-top: 20px;
+}
+.baza .bazaModal form input {
+  margin: 10px 0;
+}
+.baza .bazaModal form #id_byWhom {
+  margin-top: 0;
+}
+.baza .outBazaTable {
+  overflow-x: auto;
+  margin-top: 30px;
+}
+.baza .outBazaTable table th {
+  padding: 5px 10px;
+  text-align: center;
+}
+.baza .outBazaTable table tr {
+  box-shadow: -3px 0px 15px -8px grey;
+}
+.baza .outBazaTable table tr:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.baza .outBazaTable table tr:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.baza .outBazaTable table tr td {
+  text-align: center;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  padding: 5px 10px;
+}
+.baza .outBazaTable table tr td:first-child {
+  border-left: none;
+  text-transform: capitalize;
+}
+.baza .outBazaTable table tr td:last-child {
+  border-right: none;
+}
+.baza .outBazaTable table tr td .openEdit {
+  text-decoration: none;
+}
+.baza .outBazaTable table tr .inputToBase {
+  color: green;
+}
+.baza .outBazaTable table tr .outToBase {
+  color: red;
+}
+
+@media (max-width: 1100px) {
+  .baza .outBazaTable table {
+    width: 1040px;
   }
 }
 

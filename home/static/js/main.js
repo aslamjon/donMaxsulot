@@ -2,7 +2,7 @@
 // Clock
 function addZero(i) {
     if (i < 10) {
-      i = "0" + i;
+        i = "0" + i;
     }
     return i;
 }
@@ -38,11 +38,15 @@ $(function() {
         $("#id_totalSum").val(numberWithCommas(sum));
         // $("#id_totalSum").mask("#,###",{reverse: true});
     }
-    $('.amount').keyup(function(event) {
-        if(event.keyCode == 48 || event.keyCode == 49 || event.keyCode == 50 || event.keyCode == 51 || event.keyCode == 52 || event.keyCode == 53 || event.keyCode == 54 || event.keyCode == 55 || event.keyCode == 56 || event.keyCode == 57) {
-            total_amount()
-            $('.amount').mask("#,###",{reverse: true});
-        }
+    // $('.amount').keyup(function(event) {
+    //     if(event.keyCode == 48 || event.keyCode == 49 || event.keyCode == 50 || event.keyCode == 51 || event.keyCode == 52 || event.keyCode == 53 || event.keyCode == 54 || event.keyCode == 55 || event.keyCode == 56 || event.keyCode == 57) {
+    //         total_amount()
+    //         $('.amount').mask("#,###",{reverse: true});
+    //     }
+    // })
+    $('.amount').on('input', function() {
+        total_amount()
+        $('.amount').mask("#,###",{reverse: true});
     })
 })
 function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
@@ -55,14 +59,9 @@ try {
         } if (id_totalSum.value.includes(',')) {
             $('.amount').unmask()
         } if (window.location.pathname == "/savdo/") {
-            if (id_orginalPrice.value.includes(',')) {
-                $('.amount').unmask()
-            }
+            
         }
         try {
-            if (id_insidePrice.value.includes(',')) {
-                $('.amount').unmask()
-            }
             if (id_outsidePrice.value.includes(',')) {
                 $('.amount').unmask()
             }
@@ -118,9 +117,11 @@ try {
 try {
     sendToHomeBtn.onclick = function() {
         if (id_price.value.includes(',')) id_price.value = id_price.value.replace(',','').replace(',','');
-        if (isNumber(id_price.value)) {
+        if (id_showToAgent.value.includes(',')) id_showToAgent.value = id_showToAgent.value.replace(',','').replace(',','');
+        if (isNumber(id_price.value) && isNumber(id_showToAgent.value)) {
             sendHomeForm.submit()
-
+        } else {
+            alert("Ma'lumotni kiritishda xatolik bor. Iltimos qaytadan urinib ko'ring")
         }
     }
 } catch (error) {

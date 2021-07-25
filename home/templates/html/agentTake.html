@@ -6,10 +6,10 @@
 {% block content %}
 <div class="agentTake base containerCustom">
     {% if user.is_authenticated and isAdmin %}
-    <div class="text-danger">{{error}}</div>
+    <div class="text-danger mb-2">{{error}}</div>
     <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
         Savdo tochkasiga qo'shish
-    </button>
+    </button> 
     {% if who %}
     <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#payToAgent">
         Agentga pul to'lash
@@ -52,11 +52,10 @@
                     <form id="enterForm" action="{% url 'agentTake' %}" method="POST">
                         {% csrf_token %}
                         <label for="id_typeOfProduct">Maxsulot turi</label><br>
+                        
                         {{qarzForm.typeOfProduct}}
                         <!-- <label for="id_kg">Kg</label><br> -->
                         {{qarzForm.kg}}
-                        <!-- <label for="id_orginalPrice">Yukning asil narxi</label><br> -->
-                        {{qarzForm.orginalPrice}}
                         <!-- <label for="id_price">Sotilayotgan narxi</label><br> -->
                         {{qarzForm.price}}
                         <!-- <label for="id_totalSum">To'liq summasi</label><br> -->
@@ -76,8 +75,10 @@
         </div>
     </div>
     <script>
+        if (id_typeOfProduct.children.length == 0) {
+            id_typeOfProduct.innerHTML = `<option value="" disabled selected hidden>Bazada ma'lumot kiritilmagan !!!</option>`
+        }
         id_kg.value = '';
-        id_orginalPrice.value = '';
         id_price.value = '';
         id_totalSum.value = '';
     </script>
@@ -95,7 +96,8 @@
             </div>
         </form>
     </div>
-
+    {% length getAgentsData as len %}
+    {% if not len == 0 %}
     <div class="outAgentTabel">
         <table class="agentTabel baseTabel">
             <tr>
@@ -164,6 +166,9 @@
             </tr>
         </table>
     </div>
+    {% else %}
+    <div class="text-primary mt-3">Bazaga ma'lumot kiritilmaganligi uchun jadval vaqtincha sizga ko'rinmaydi</div>
+    {% endif %}
     {% else %}
     <div class="text-danger">Bu bo'limga vaqat admin kirish huquqiga ega</div>
     <a href="{% url 'home' %}" class="btn btn-outline-success mt-4">Bosh sahifaga qaytish</a>

@@ -28,7 +28,11 @@ def filterSth(data, without):
 def fivePre(num):
     return int((num*5)/100)
 
-
+# Home qsim uchun agentlarga narxni 200 qimma ko'rsatish maqsadida
 @register.simple_tag
 def forAgent(num):
     return int(num)+200
+
+@register.simple_tag
+def length(data):
+    return len(data)

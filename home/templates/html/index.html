@@ -37,8 +37,15 @@
                             {{homeForm.des}}
                             <!-- <label for="id_price">Maxsulot narxi</label><br> -->
                             {{homeForm.price}}
+                            {{homeForm.showToAgent}}
                             <button type="button" class="btn btn-outline-dark mt-2" id="sendToHomeBtn">Saqlash</button>
                         </form>
+                        <script>
+                            let priceHome = document.querySelectorAll('.priceHome');
+                            priceHome.forEach((val, ind) => {
+                                val.value = ''
+                            })
+                        </script>
                     </div>
                 </div>
             </div>
@@ -60,14 +67,15 @@
                         <h2 class="text-bold">
                             <span class="price numMusk">
                                 {% if isAgent %}
-                                {% forAgent item.price as forAgents %}
-                                {{forAgents}}
+                                {{item.showToAgent}}
+
                                 {% else %}
                                 {{item.price}}
                                 {% endif %}
                             </span> so'm
                         </h2>
                     </div>
+                    
                     {% if user.is_authenticated and isAdmin %}
                     <form action="{% url 'deleteHome' item.id %}" class="d-flex justify-content-between pl-3 pr-3 pb-3"
                         method="POST">

@@ -24,14 +24,16 @@
                     {{form.typeOfProduct}}
                     <label for="id_kg">Kg</label><br>
                     {{form.kg}}
-                    <label for="id_insidePerice">Bazaga kirish narxi</label><br>
-                    {{form.insidePrice}}
                     <label for="id_outsidePerice">Bazadan chiqish narxi</label><br>
                     {{form.outsidePrice}}
                     <label for="id_totalSum">To'liq summa</label><br>
                     {{form.totalSum}}
                     <label for="id_byWhom" class="">Kim tomonidan?</label><br>
                     {{form.byWhom}}
+                    <div class="custom-control custom-switch mt-2">
+                        {{form.debt}}
+                        <label for="id_debt" class="custom-control-label">Yuk qarzga berilganmi?</label>
+                    </div>
                     <div class="d-flex justify-content-between align-items-center">
                         <button type="button" id="deleteBtn" class="btn btn-primary mt-3">Delete</button>
                         <button type="button" id="subBtn" class="btn btn-outline-dark">Saqlash</button>

@@ -1,0 +1,97 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% load indexObj %}
+{% block title %}Baza{% endblock %}
+
+{% block content %}
+<div class="baza containerCustom">
+    {% if user.is_authenticated and isAdmin %}
+    <div class="text-danger">{{error}}</div>
+    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
+        Savdo tochkasiga qo'shish
+    </button>
+
+    <!-- The Modal -->
+    <div class="modal bazaModal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Bazaga ma'lumot kiritish</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="enterForm" action="{% url 'baza' %}" method="POST">
+                        {% csrf_token %}
+                        <label for="id_typeOfProduct">Maxsulot turi</label><br>
+                        {{bazaForm.typeOfProduct}}
+                        {{bazaForm.kg}}
+                        {{bazaForm.price}}
+                        {{bazaForm.totalSum}}
+                        <label for="id_byWhom" class="">Kim tomonidan?</label><br>
+                        {{bazaForm.byWhom}}
+                        <div class="d-flex justify-content-between mt-2">
+                            <div class="custom-control custom-switch">
+                                {{bazaForm.debt}}
+                                <label for="id_debt" class="custom-control-label">Yukni qarzga olganmi?</label>
+                            </div>
+                            <button type="button" id="subBtn" class="btn btn-outline-dark">Jo'natish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        id_kg.value = '';
+        id_price.value = '';
+        id_totalSum.value = '';
+    </script>
+
+    <div class="outBazaTable">
+        {% length getBaza as len %}
+        {% if not len == 0 %}
+        <table>
+            <tr>
+                <th>Kim ?</th>
+                <th>Maxsulot turi</th>
+                <th>Kg</th>
+                <th>Narxi</th>
+                <th>Hozirda Kg bor</th>
+                <th>To'liq summasi</th>
+                <th>Vaqti</th>
+                <th>Qarz</th>
+                <th>Oxirg qarzni bergan vaqt</th>
+            </tr>
+            {% for item in getBaza %}
+            <tr>
+                <td><a class="openEdit text-capitalize" href="{% url 'editBaza' item.id %}">{{item.byWhom}}</a></td>
+                <td>{{item.typeOfProduct}}</td>
+                <td><span class="numMusk">{{item.kg}}</span> kg</td>
+                <td><span class="numMusk">{{item.price}}</span> so'm</td>
+                <td><span class="numMusk text-secondary">{{item.kgOrg}}</span> kg</td>
+                <td><span class="numMusk">{{item.totalSum}}</span> so'm</td>
+                <td>{{item.date}}</td>
+                <td>
+                    {% if item.debt == True %}
+                        <span class="numMusk text-danger">{{item.debtSum}}</span> so'm
+                    
+                    {% endif %}
+                </td>
+                <td> {% if not item.oxirgiQarzBerganVaqti == None %}
+                    {{item.oxirgiQarzBerganVaqti}}
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        {% else %}
+        <div class="text-primary">Bazaga ma'lumot kiritilmaganligi uchun jadval vaqtincha sizga ko'rinmaydi</div>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="text-danger">Bu bo'limga vaqat admin kirish huquqiga ega</div>
+    <a href="{% url 'home' %}" class="btn btn-outline-success mt-4">Bosh sahifaga qaytish</a>
+    {% endif %}
+</div>
+{% endblock %}

@@ -2,4 +2,13 @@ nav {
     .navbar-toggler {
         outline: none;
     }
+    .navbar-collapse {
+        ul {
+            li {
+                a {
+                    cursor: pointer;
+                }
+            }
+        }
+    }
 }
