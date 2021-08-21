@@ -6,8 +6,8 @@ from django.db import IntegrityError  # Pythonda mavjud bo'lmagan xatolik
 # authenticate->signin qismini tekshiradi
 from django.contrib.auth import login, logout, authenticate
 from django.http import HttpResponse, JsonResponse
-from .models import Home, mainBase, Qarz, PayAgent, Baza, Agents, Admins
-from .forms import Basee, QarzForm, InputQarzForm, HomeForm, PayAgentForm, LendDebt, BazaForm, LendDebtForBaza, AgentsForm
+from .models import Home, mainBase, Qarz, PayAgent, Baza, Agents, Admins, TakeMoneyFromBazar
+from .forms import Basee, QarzForm, InputQarzForm, HomeForm, PayAgentForm, LendDebt, BazaForm, LendDebtForBaza, AgentsForm, TakeMoneyFromBazarForm
 from datetime import date, datetime, timedelta
 
 
@@ -176,7 +176,7 @@ def editBaza(request, get_id):
                 return checkIsAdmin(request, 'html/editRealBaza.html', sendToTemplate, {"a": 'a'})
         else:
             if product.kg == product.kgOrg and not product.changed:
-                product.kgOrg = int(request.POST.get('kg'))
+                product.kgOrg = float(request.POST.get('kg'))
             form = BazaForm(request.POST, instance=product)
             if form.is_valid():
                 form.save()
@@ -192,10 +192,12 @@ def deleteBaza(request, get_id):
         product.delete()
         return redirect('baza')
 
+#  ************ Bozor ******************
 def base(request):
-    def getTotalRes(first):
+    def getTotalRes(first,secound=0):
         totalRes = {
             "priceSum": 0,
+            'rest':0,
             "kgSum": 0,
             "debtSum": 0,
             "expectedBenefit": 0,
@@ -208,6 +210,14 @@ def base(request):
             totalRes['expectedBenefit'] += ((first[i].kg * first[i].outsidePrice) -
                                             (first[i].kg * first[i].insidePrice))
             totalRes['pratsent'] += (first[i].kg * first[i].outsidePrice)
+        totalRes['priceSum'] = int(totalRes['priceSum'])
+        totalRes['debtSum'] = int(totalRes['debtSum'])
+        totalRes['expectedBenefit'] = int(totalRes['expectedBenefit'])
+        totalRes['pratsent'] = int(totalRes['pratsent'])
+        if not secound == 0:
+            for item in secound:
+                totalRes['rest'] += item.TakeMoney
+            totalRes['rest'] = totalRes['priceSum'] - totalRes['rest']
         return totalRes
     if (request.method == 'GET'):
         getBase = mainBase.objects.all()
@@ -216,10 +226,10 @@ def base(request):
             sendSearch = getBase.filter(
                 byWhom__startswith=request.GET.get('search'))
             return checkIsAdmin(request, 'html/baza.html',
-                                {'baza':getDataFromBaza ,'who': sendSearch[0].byWhom, 'totalData': getTotalRes(sendSearch), 'base': Basee, 'getBase': sendSearch, 'is_admin': True}, {'is_admin': False})
+                                {'baza':getDataFromBaza ,'who': sendSearch[0].byWhom, 'totalData': getTotalRes(sendSearch, TakeMoneyFromBazar.objects.all()), 'base': Basee, 'getBase': sendSearch, 'is_admin': True}, {'is_admin': False})
         else:
             return checkIsAdmin(request, 'html/baza.html',
-                                {'baza':getDataFromBaza ,'totalData': getTotalRes(getBase), 'base': Basee, 'getBase': getBase, 'is_admin': True}, {'is_admin': False})
+                                {'TakeMoneyFromBazarForm':TakeMoneyFromBazarForm,'baza':getDataFromBaza ,'totalData': getTotalRes(getBase, TakeMoneyFromBazar.objects.all()), 'base': Basee, 'getBase': getBase, 'is_admin': True}, {'is_admin': False})
 
     elif (request.method == 'POST'):
         saveData = Basee(request.POST)
@@ -238,14 +248,14 @@ def base(request):
             if searchR[0].debt:
                 # agar qarzba xarisudagi boshaq
                 if request.POST.get('debt') == 'on':
-                    searchR[0].kg += int(request.POST.get('kg'))
-                    searchR[0].totalSum += (int(request.POST.get('kg'))
+                    searchR[0].kg += float(request.POST.get('kg'))
+                    searchR[0].totalSum += (float(request.POST.get('kg'))
                                             * int(request.POST.get('outsidePrice')))
-                    searchR[0].qarzSum += (int(request.POST.get('kg'))
+                    searchR[0].qarzSum += (float(request.POST.get('kg'))
                                            * int(request.POST.get('outsidePrice')))
                 else:
-                    searchR[0].kg += int(request.POST.get('kg'))
-                    searchR[0].totalSum += (int(request.POST.get('kg'))
+                    searchR[0].kg += float(request.POST.get('kg'))
+                    searchR[0].totalSum += (float(request.POST.get('kg'))
                                             * int(request.POST.get('outsidePrice')))
                 searchR[0].save()
             else:
@@ -262,16 +272,16 @@ def base(request):
                     searchR[0].totalSum += (int(request.POST.get('kg'))
                                             * int(request.POST.get('outsidePrice')))
                 searchR[0].save()
-            changeKgOrg.kgOrg -= int(request.POST.get('kg'))
+            changeKgOrg.kgOrg -= float(request.POST.get('kg'))
             changeKgOrg.save()
             return redirect('base')
         else:
             # oldin bu haqida malumot bo'lmasa yaratadi
             getBase = mainBase.objects.all()
             if saveData.is_valid():
-                if (changeKgOrg.kgOrg - int(request.POST.get('kg'))) >= 0:
+                if (changeKgOrg.kgOrg - float(request.POST.get('kg'))) >= 0:
                     saveData.save()
-                    changeKgOrg.kgOrg -= int(request.POST.get('kg'))
+                    changeKgOrg.kgOrg -= float(request.POST.get('kg'))
                     changeKgOrg.save()
                     # agar qarzga olgan bo'lsa
                     searchRes = getBase[len(getBase)-1]
@@ -323,18 +333,18 @@ def editItem(request, product_id):
             getDataFromBaza = Baza.objects.all()
             filterBazaForFindingPrice = getDataFromBaza.filter(typeOfProduct=request.POST.get('typeOfProduct'))
             changeKgOrg = Baza.objects.get(id=filterBazaForFindingPrice[0].id)
-            if product.kg > int(request.POST.get('kg')):
-                temp = product.kg - int(request.POST.get('kg'))
+            if product.kg > float(request.POST.get('kg')):
+                temp = product.kg - float(request.POST.get('kg'))
                 changeKgOrg.kgOrg += temp
-            elif product.kg < int(request.POST.get('kg')):
-                temp = int(request.POST.get('kg')) - product.kg
+            elif product.kg < float(request.POST.get('kg')):
+                temp = float(request.POST.get('kg')) - product.kg
                 changeKgOrg.kgOrg -= temp
             if not product.typeOfProduct == request.POST.get('typeOfProduct'):
                 product.insidePrice = filterBazaForFindingPrice[0].price
                 filterBazaOldKgOfProduct = Baza.objects.get(typeOfProduct=product.typeOfProduct)
-                filterBazaOldKgOfProduct.kgOrg += int(product.kg)
+                filterBazaOldKgOfProduct.kgOrg += float(product.kg)
                 filterBazaOldKgOfProduct.save()
-                changeKgOrg.kgOrg -= int(request.POST.get('kg'))
+                changeKgOrg.kgOrg -= float(request.POST.get('kg'))
             form = Basee(request.POST, instance=product)
             if form.is_valid():
                 form.save()
@@ -351,10 +361,27 @@ def deleteBase(request, product_id):
     if request.method == 'POST':
         blog.delete()
         return redirect('base')
-# ***************************************************
+# *********************- TakeMoney -******************************
+def addMoneyWhenTakeMoney(request):
+    if request.method == "GET":
+        content = {
+            'TakeMoneyFromBazar': TakeMoneyFromBazar.objects.all(),
+            'TakeMoneyFromBazarForm':TakeMoneyFromBazarForm,
+        }
+        return checkIsAdmin(request, 'html/whenTakeMoney.html', content, {})
 
+    if request.method == "POST":
+        form = TakeMoneyFromBazarForm(request.POST)
+        if form.is_valid():
+            form.save()
+    return redirect('addMoneyWhenTakeMoney')
+
+def deleteAddMoneyWhenTakeMoney(request, block_id):
+    blog = get_object_or_404(TakeMoneyFromBazar, pk=block_id)
+    if request.method == 'POST':
+        blog.delete()
+    return redirect('addMoneyWhenTakeMoney')
 # this function get lastMonth
-
 
 def prev_month(date=date.today()):
     if date.month == 1:
@@ -391,6 +418,10 @@ def agentTake(request):
             totalRes['expectedBenefit'] += ((first[i].kg * first[i].price) -
                                             (first[i].kg * first[i].orginalPrice))
             totalRes['pratsent'] += (first[i].kg * first[i].price)
+        totalRes['priceSum'] = int(totalRes['priceSum'])
+        totalRes['debtSum'] = int(totalRes['debtSum'])
+        totalRes['expectedBenefit'] = int(totalRes['expectedBenefit'])
+        totalRes['pratsent'] = int(totalRes['pratsent'])
         return totalRes
     if request.method == 'GET':
         getDataFromBaza = Baza.objects.all()
@@ -421,8 +452,8 @@ def agentTake(request):
         filterBaza = getDataFromBaza.filter(typeOfProduct__exact=request.POST.get('typeOfProduct'))
         changeKgOrg = Baza.objects.get(id=filterBaza[0].id)
         if form.is_valid():
-            if (changeKgOrg.kgOrg - int(request.POST.get('kg'))) >= 0:
-                changeKgOrg.kgOrg -= int(request.POST.get('kg'))
+            if (changeKgOrg.kgOrg - float(request.POST.get('kg'))) >= 0:
+                changeKgOrg.kgOrg -= float(request.POST.get('kg'))
                 form.save()
                 changeKgOrg.save()
                 getBase = Qarz.objects.all()
@@ -502,6 +533,14 @@ def delete(request, agent_id):
         blog.delete()
         # blog2.delete()
         return redirect('agentTake')
+
+def addRealBazaWhenHaveProducts(request, product_id):
+    product = get_object_or_404(Baza, pk=product_id)
+    if request.method == 'POST':
+        product.kgOrg += float(request.POST['addKg'])
+        product.kg += float(request.POST['addKg'])
+        product.save()
+    return redirect('baza')
 
 
 def payToAgent(request):

@@ -7,8 +7,8 @@
 <div class="agentTake base containerCustom">
     {% if user.is_authenticated and isAdmin %}
     <div class="text-danger mb-2">{{error}}</div>
-    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
-        Savdo tochkasiga qo'shish
+    <button type="button" class="btn btn-success fs-20" data-toggle="modal" data-target="#myModal">
+        +
     </button> 
     {% if who %}
     <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#payToAgent">
@@ -120,7 +120,7 @@
                     <a class="openEdit text-capitalize" href="{% url 'editAgent' obj.id %}">{{obj.byWhom}}</a>
                 </td>
                 <td>{{obj.typeOfProduct}}</td>
-                <td><span class="numMusk">{{obj.kg}}</span> kg</td>
+                <td><span class="">{{obj.kg}}</span> kg</td>
                 <td><span class="numMusk">{{obj.orginalPrice}}</span> so'm</td>
                 <td><span class="numMusk">{{obj.price}}</span> so'm</td>
                 <td>{% if obj.debt == True %}
@@ -151,9 +151,9 @@
             </tr>
             <tr>
                 <td><span class="numMusk">{{totalRes.priceSum}}</span> so'm</td>
-                <td><span class="numMusk">{{totalRes.kgSum}}</span> kg</td>
-                <td><span class="numMusk">{{totalRes.debtSum}}</span> so'm</td>
-                <td><span class="numMusk">{{totalRes.expectedBenefit}}</span> so'm</td>
+                <td><span class="">{{totalRes.kgSum}}</span> kg</td>
+                <td><span class="numMusk text-success">{{totalRes.debtSum}}</span> so'm</td>
+                <td><span class="numMusk bd-green">{{totalRes.expectedBenefit}}</span> so'm</td>
                 <td>
                     {% if who %}
                     <a class="text-decoration-none" href="{% url 'payToAgent' %}">

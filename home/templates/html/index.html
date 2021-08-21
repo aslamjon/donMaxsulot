@@ -8,8 +8,8 @@
         {% if user.is_authenticated and isAdmin %}
 
         <div class="text-danger">{{error}}</div>
-        <button type="button" class="btn btn-dark mt-3" data-toggle="modal" data-target="#myModal">
-            Asosiy qsimga ma'lumot qo'shish
+        <button type="button" class="btn btn-success mt-3 fs-20" data-toggle="modal" data-target="#myModal">
+            +
         </button>
 
         <!-- The Modal -->
@@ -80,8 +80,8 @@
                     <form action="{% url 'deleteHome' item.id %}" class="d-flex justify-content-between pl-3 pr-3 pb-3"
                         method="POST">
                         {% csrf_token %}
-                        <a href="{% url 'editHome' item.id %}" class="btn btn-outline-warning openEditModal">Edit</a>
-                        <button class="btn btn-outline-danger">Delete</button>
+                        <a href="{% url 'editHome' item.id %}" class="btn btn-outline-warning openEditModal"><img src="{% static 'pencil.png' %}" class="w-30px" alt=""></a>
+                        <button class="btn btn-outline-danger"><img src="{% static 'delete.png' %}" class="w-30px" alt=""></button>
                     </form>
                     {% endif %}
                 </div>

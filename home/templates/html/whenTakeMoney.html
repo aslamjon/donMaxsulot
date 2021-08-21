@@ -1,0 +1,75 @@
+{% extends 'html/base.html' %}
+{% load static %}
+{% load indexObj %}
+{% block title %}Base{% endblock %}
+
+{% block content %}
+<div class="whenTakeMoney containerCustom mt-3">
+    {% if user.is_authenticated and isAdmin %}
+    <button type="button" class="btn btn-success fs-18 mb-3" data-toggle="modal" data-target="#TakeMoney">
+        Pul olganda
+    </button> 
+
+    <div class="modal baseModal" id="TakeMoney">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Pul olganda malumot kiritish</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="addMoneyWhenTakeMoneyId" action="{% url 'addMoneyWhenTakeMoney' %}" method="POST">
+                        {% csrf_token %}
+                        {{TakeMoneyFromBazarForm.who}}
+                        {{TakeMoneyFromBazarForm.TakeMoney}}
+                        <div class="d-flex justify-content-between mt-2">
+                            <button type="button" id="addMoneyWhenTakeMoneyBtn" class="btn btn-outline-dark">Saqlash</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="outTabel">
+        <table>
+            <tr>
+                <td>Nomi</td>
+                <td>Summasi</td>
+                <td>Vaqti</td>
+                <td>O'chirish</td>
+            </tr>
+            {% for item in TakeMoneyFromBazar %}
+            <tr>
+                <td>{{item.who}}</td>
+                <td>{{item.TakeMoney}}</td>
+                <td>{{item.date}}</td>
+                <td>
+                    <form class="deleteSumForm" action="{% url 'deleteAddMoneyWhenTakeMoney' item.id %}" method="POST">
+                        {% csrf_token %}
+                        <button type="button" class="btn btn-outline-danger p-1 pl-2 pr-2 deleteSumBtn">
+                            <img src="{% static 'delete.png' %}" alt="" style="width: 20px;">
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+            <script>
+                let deleteSumbtn = document.querySelectorAll('.deleteSumBtn');
+                let deleteSumForm = document.querySelectorAll('.deleteSumForm');
+                deleteSumbtn.forEach((value, index) => {
+                    value.onclick = function() {
+                        let res = confirm("Ma'lumotni o'chirishni xoxlaysizmi?");
+                        if (res){
+                            deleteSumForm[index].submit()
+                        }
+                    }
+                })
+            </script>
+        </table>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

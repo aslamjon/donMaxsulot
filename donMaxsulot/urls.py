@@ -18,7 +18,7 @@ from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
 from home import views
-from home.views import base, editItem, agentTake, editAgent, delete, deleteHome, editHome, payToAgent, deleteBase, baza, editBaza, deleteBaza, addAgent, deleteAgent
+from home.views import base, editItem, agentTake, editAgent, delete, deleteHome, editHome, payToAgent, deleteBase, baza, editBaza, deleteBaza, addAgent, deleteAgent, addRealBazaWhenHaveProducts, addMoneyWhenTakeMoney, deleteAddMoneyWhenTakeMoney
 
 from django.views.static import serve
 from django.conf.urls import url
@@ -36,8 +36,11 @@ urlpatterns = [
     path('baza/', baza, name='baza'),
     path('baza/<int:get_id>', editBaza, name='editBaza'),
     path('baza/delete/<int:get_id>', deleteBaza, name='deleteBaza'),
+    path('baza/add/<int:product_id>', addRealBazaWhenHaveProducts, name='addRealBazaWhenHaveProducts'),
     # Note base
     path('bozor/', base, name='base'),
+    path('bozor/addMoney', addMoneyWhenTakeMoney, name='addMoneyWhenTakeMoney'),
+    path('bozor/addMoney/delete/<int:block_id>', deleteAddMoneyWhenTakeMoney, name='deleteAddMoneyWhenTakeMoney'),
     path('bozor/<int:product_id>', editItem, name='editItem'),
     path('bozor/delete/<int:product_id>', deleteBase, name='deleteBase'),
     # Savdo tochkasi

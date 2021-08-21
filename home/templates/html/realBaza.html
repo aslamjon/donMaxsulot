@@ -7,8 +7,8 @@
 <div class="baza containerCustom">
     {% if user.is_authenticated and isAdmin %}
     <div class="text-danger">{{error}}</div>
-    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
-        Savdo tochkasiga qo'shish
+    <button type="button" class="btn btn-success fs-20" data-toggle="modal" data-target="#myModal">
+        +
     </button>
 
     <!-- The Modal -->
@@ -67,9 +67,9 @@
             <tr>
                 <td><a class="openEdit text-capitalize" href="{% url 'editBaza' item.id %}">{{item.byWhom}}</a></td>
                 <td>{{item.typeOfProduct}}</td>
-                <td><span class="numMusk">{{item.kg}}</span> kg</td>
+                <td><span class="">{{item.kg}}</span> kg</td>
                 <td><span class="numMusk">{{item.price}}</span> so'm</td>
-                <td><span class="numMusk text-secondary">{{item.kgOrg}}</span> kg</td>
+                <td><span class="text-secondary">{{item.kgOrg}}</span> kg</td>
                 <td><span class="numMusk">{{item.totalSum}}</span> so'm</td>
                 <td>{{item.date}}</td>
                 <td>

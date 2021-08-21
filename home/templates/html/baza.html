@@ -13,10 +13,10 @@
 <div class="base containerCustom">
     {% if user.is_authenticated and is_admin %}
     <div class="text-danger mb-2">{{error}}</div>
-    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#myModal">
-        Bazaga ma'lumot kiritish
+    <button type="button" class="btn btn-success fs-20" data-toggle="modal" data-target="#myModal">
+        +
     </button> 
-
+    <a href="{% url 'addMoneyWhenTakeMoney' %}" class="btn btn-success fs-18">Pul kiritish</a>
     <!-- The Modal -->
     <div class="modal baseModal" id="myModal">
         <div class="modal-dialog">
@@ -77,7 +77,7 @@
             <tr>
                 <td><a class="openEdit text-capitalize" href="{% url 'editItem' item.id %}">{{item.byWhom}}</a></td>
                 <td>{{item.typeOfProduct}}</td>
-                <td><span class="numMusk">{{item.kg}}</span> kg</td>
+                <td><span class="">{{item.kg}}</span> kg</td>
                 <td><span class="numMusk">{{item.insidePrice}}</span> so'm</td>
                 <td><span class="numMusk">{{item.outsidePrice}}</span> so'm</td>
                 <td><span class="numMusk">{{item.totalSum}}</span> so'm</td>
@@ -104,6 +104,7 @@
         <table>
             <tr>
                 <th>Sotilgan yuklar summasi</th>
+                <th>Qoldiq</th>
                 <th>Sotilgan yuklar kg</th>
                 <th>To'langan Qarzlar</th>
                 <th>Kutilayotgan foyda</th>
@@ -111,7 +112,8 @@
             </tr>
 
             <td><span class="numMusk">{{totalData.priceSum}}</span> so'm</td>
-            <td><span class="numMusk">{{totalData.kgSum}}</span> kg</td>
+            <td><span class="numMusk">{{totalData.rest}}</span> so'm</td>
+            <td><span class="">{{totalData.kgSum}}</span> kg</td>
             <td><span class="numMusk text-success">{{totalData.debtSum}}</span> so'm</td>
             <td><span class="numMusk bd-green">{{totalData.expectedBenefit}}</span> so'm</td>
             <td>

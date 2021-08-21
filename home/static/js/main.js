@@ -24,26 +24,19 @@ function numberWithCommas(x) {return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3}
 
 $(function() {
     // mask
-    $('.amount').mask("#,###",{reverse: true});
+    $('.amount').mask("#,###,###",{reverse: true});
     $('.numMusk').mask("#,###,###",{reverse: true});
 
     var total_amount = function() {
-        // var sum = $('#id_kg').val().replace(',','') * $('#id_insidePrice').val().replace(',','');
         var sum;
         if ($('#id_outsidePrice').unmask().val() == undefined){
-            var sum = $('#id_kg').unmask().val() * $('#id_price').unmask().val();
+            var sum = $('#id_kg').val() * $('#id_price').unmask().val();
         } else {
-            var sum = $('#id_kg').unmask().val() * $('#id_outsidePrice').unmask().val();
+            var sum = $('#id_kg').val() * $('#id_outsidePrice').unmask().val();
         }
         $("#id_totalSum").val(numberWithCommas(sum));
         // $("#id_totalSum").mask("#,###",{reverse: true});
     }
-    // $('.amount').keyup(function(event) {
-    //     if(event.keyCode == 48 || event.keyCode == 49 || event.keyCode == 50 || event.keyCode == 51 || event.keyCode == 52 || event.keyCode == 53 || event.keyCode == 54 || event.keyCode == 55 || event.keyCode == 56 || event.keyCode == 57) {
-    //         total_amount()
-    //         $('.amount').mask("#,###",{reverse: true});
-    //     }
-    // })
     $('.amount').on('input', function() {
         total_amount()
         $('.amount').mask("#,###",{reverse: true});
@@ -51,11 +44,24 @@ $(function() {
 })
 function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
 
+// for takeMoney
+try {
+    addMoneyWhenTakeMoneyBtn.onclick = function() {
+        if (id_TakeMoney.value.includes(',')) {
+            $('.amount').unmask()
+        }
+        addMoneyWhenTakeMoneyId.submit()
+        id_TakeMoney.value = '';
+    }
+} catch {
+    //
+}
+
 try {
     subBtn.onclick = function() {
         if (id_kg.value.includes(',')) {
-            $('.amount').unmask()
-            $('.amount').unmask()
+            // $('.amount').unmask()
+            // $('.amount').unmask()
         } if (id_totalSum.value.includes(',')) {
             $('.amount').unmask()
         } if (window.location.pathname == "/savdo/") {

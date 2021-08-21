@@ -2,7 +2,7 @@ from django.db.models import fields
 from django.forms import ModelForm, widgets  # bu bilan formalarni tez yasay olamiz
 from django.contrib.auth.models import User
 from django import forms
-from .models import Home, mainBase, Qarz, PayAgent, Baza, Admins, Agents
+from .models import Home, mainBase, Qarz, PayAgent, Baza, Admins, Agents, TakeMoneyFromBazar
 
 
 class HomeForm(ModelForm):
@@ -32,7 +32,7 @@ class Basee(ModelForm):
         model = mainBase
         fields = ['typeOfProduct', 'kg', 'outsidePrice', 'totalSum', 'byWhom', 'changed', 'debt']
         widgets = {
-            'kg': forms.TextInput(attrs={'placeholder': 'kg', 'class': "form-control amount"}),
+            'kg': forms.TextInput(attrs={'placeholder': 'kg', 'class': "form-control "}),
             'outsidePrice': forms.TextInput(attrs={'placeholder': 'Bazadan chiqish narxi', 'class': "form-control amount"}),
             'totalSum': forms.TextInput(attrs={'placeholder': "To'liq Sum", 'class': "form-control amount", 'readonly': "true"}),
             'byWhom': forms.TextInput(attrs={'placeholder': "Kim tomonidan?", 'class': "form-control"}),
@@ -72,7 +72,7 @@ class QarzForm(ModelForm):
         model = Qarz
         fields = ['typeOfProduct', 'kg', 'price', 'totalSum', 'byWhom', 'debt']
         widgets = {
-            'kg': forms.TextInput(attrs={'placeholder': 'kg', 'class': "form-control amount"}),
+            'kg': forms.TextInput(attrs={'placeholder': 'kg', 'class': "form-control"}),
             'price': forms.TextInput(attrs={'placeholder': 'Sotilayotgan narxi', 'class': "form-control amount"}),
             'totalSum': forms.TextInput(attrs={'placeholder': "To'liq Sum", 'class': "form-control amount", 'readonly': "true"}),
             'byWhom': forms.TextInput(attrs={'placeholder': 'Kim ?', 'class': "form-control"}),
@@ -108,7 +108,7 @@ class BazaForm(ModelForm):
         fields = ['typeOfProduct', 'kg', 'price', 'totalSum', 'byWhom', 'debt']
         widgets = {
             'typeOfProduct': forms.TextInput(attrs={'placeholder': 'Maxsulot nomi', 'class': "form-control"}),
-            'kg': forms.TextInput(attrs={'placeholder': "kg", 'class': "form-control amount"}),
+            'kg': forms.TextInput(attrs={'placeholder': "kg", 'class': "form-control"}),
             'price': forms.TextInput(attrs={'placeholder': "Narxi", 'class': "form-control amount"}),
             'totalSum': forms.TextInput(attrs={'placeholder': "To'liq summasi", 'class': "form-control amount"}), 
             'byWhom': forms.TextInput(attrs={'placeholder': "Kim ?", 'class': "form-control"}),
@@ -121,4 +121,13 @@ class AgentsForm(ModelForm):
         fields = ['name']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Nomi', 'class': "form-control"})
+        }
+
+class TakeMoneyFromBazarForm(ModelForm):
+    class Meta:
+        model = TakeMoneyFromBazar
+        fields = ['who', 'TakeMoney']
+        widgets = {
+            'who': forms.TextInput(attrs={'placeholder': 'Nomi', 'class': "form-control"}),
+            'TakeMoney': forms.TextInput(attrs={'placeholder': 'Summa', 'class': "form-control mt-2"}),
         }

@@ -6,6 +6,7 @@
 {% if user.is_authenticated and isAdmin %}
     <div class="edit editRealBaza containerCustom">
         <button type="button" class="btn btn-outline-warning mb-3 " data-toggle="collapse" data-target="#changeMain">Asosiy qsimni o'zgartirish</button>
+        <button type="button" class="btn btn-outline-success mb-3 " data-toggle="collapse" data-target="#addToBazaWhenHaveProduct">Maxsulot ustiga kg qo'shish</button>
         <div class="row">
             <div class="col-md-6">
                 <div class="card collapse" id="changeMain">
@@ -33,7 +34,7 @@
                             <label for="id_debt" class="custom-control-label">Yuk qarzga berilganmi?</label>
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
-                            <button type="button" id="deleteBtn" class="btn btn-primary mt-3">Delete</button>
+                            <button type="button" id="deleteBtn" class="btn btn-outline-danger mt-3"><img src="{% static 'delete.png' %}" class="w-30px" alt=""></button>
                             <button type="button" id="subBtn" class="btn btn-outline-dark">Saqlash</button>
                         </div>
                     </form>
@@ -66,6 +67,18 @@
                 </script>
             </div>
             {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div class="card collapse" id="addToBazaWhenHaveProduct">
+                    <form id="" action="{% url 'addRealBazaWhenHaveProducts' formId %}" method="POST">
+                        {% csrf_token %}
+                        <label for="addKgWhenHaveProduct">Kg ustiga qo'shish</label><br>
+                        <input type="number" class="form-control mt-3 mb-3" name="addKg" id="addKgWhenHaveProduct" placeholder="Nechi kg qo'shmoqchisiz">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button type="submit" class="btn btn-outline-dark">Saqlash</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

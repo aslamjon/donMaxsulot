@@ -9,7 +9,7 @@ class Home(models.Model):
 
 class mainBase(models.Model):
     typeOfProduct = models.TextField()
-    kg = models.IntegerField(default=0)
+    kg = models.FloatField(default=0)
     insidePrice = models.IntegerField(default=0)
     outsidePrice = models.IntegerField(default=0)
     totalSum = models.IntegerField(default=0, blank=True)
@@ -23,9 +23,10 @@ class mainBase(models.Model):
     oxirgiQarzBerganVaqti = models.DateField(null=True, auto_now_add=False)
     totalLend = models.IntegerField(null=True, default=0)
 
+# Bozor
 class Qarz(models.Model):
     typeOfProduct = models.TextField(null=True)
-    kg = models.IntegerField(null=True, default=0)
+    kg = models.FloatField(null=True, default=0)
     orginalPrice = models.IntegerField(null=True, default=0)
     price = models.IntegerField(null=True, default=0)
     totalSum = models.IntegerField(default=0, blank=True)
@@ -46,10 +47,16 @@ class PayAgent(models.Model):
     lastPayAgent = models.IntegerField(null=True, default=0)
     date = models.DateField(null=True, auto_now_add=True)
 
+class TakeMoneyFromBazar(models.Model):
+    TakeMoney = models.IntegerField(null=True, default=0)
+    date = models.DateField(null=True, auto_now_add=True)
+    who = models.TextField(default='')
+
+# Real Baza
 class Baza(models.Model):
     typeOfProduct = models.TextField()
-    kgOrg = models.IntegerField(default=0)
-    kg = models.IntegerField(default=0)
+    kgOrg = models.FloatField(default=0)
+    kg = models.FloatField(default=0)
     price = models.IntegerField(default=0)
     totalSum = models.IntegerField(default=0, blank=True)
     date = models.DateField(null=True, auto_now_add=True)
