@@ -4,7 +4,7 @@
 {% block title %}Base{% endblock %}
 
 {% block content %}
-<div class="whenTakeMoney containerCustom mt-3">
+<div class="whenTakeMoney containerCustom mt-7">
     {% if user.is_authenticated and isAdmin %}
     <button type="button" class="btn btn-success fs-18 mb-3" data-toggle="modal" data-target="#TakeMoney">
         Pul olganda
@@ -35,15 +35,15 @@
     <div class="outTabel">
         <table>
             <tr>
-                <td>Nomi</td>
-                <td>Summasi</td>
-                <td>Vaqti</td>
-                <td>O'chirish</td>
+                <th>Nomi</th>
+                <th>Summasi</th>
+                <th>Vaqti</th>
+                <th>O'chirish</th>
             </tr>
             {% for item in TakeMoneyFromBazar %}
             <tr>
                 <td>{{item.who}}</td>
-                <td>{{item.TakeMoney}}</td>
+                <td><span class="numMusk">{{item.TakeMoney}}</span></td>
                 <td>{{item.date}}</td>
                 <td>
                     <form class="deleteSumForm" action="{% url 'deleteAddMoneyWhenTakeMoney' item.id %}" method="POST">
@@ -71,5 +71,9 @@
     </div>
     {% endif %}
 </div>
-
+<style>
+    footer {
+        display: none;
+    }
+</style>
 {% endblock %}

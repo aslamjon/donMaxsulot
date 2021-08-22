@@ -6,7 +6,7 @@
 {% if user.is_authenticated and isAdmin %}
     <div class="edit editRealBaza containerCustom">
         <button type="button" class="btn btn-outline-warning mb-3 " data-toggle="collapse" data-target="#changeMain">Asosiy qsimni o'zgartirish</button>
-        <button type="button" class="btn btn-outline-success mb-3 " data-toggle="collapse" data-target="#addToBazaWhenHaveProduct">Maxsulot ustiga kg qo'shish</button>
+        <button type="button" class="btn btn-outline-success mb-3 ml-3" data-toggle="collapse" data-target="#addToBazaWhenHaveProduct">Maxsulot ustiga kg qo'shish</button>
         <div class="row">
             <div class="col-md-6">
                 <div class="card collapse" id="changeMain">
@@ -86,5 +86,10 @@
 <div class="">Tizimga kirilmagan tizimga kirib qaytadan urunib ko'ring</div>
 {% endif %}
 
+<style>
+    footer {
+        display: none;
+    }
+</style>
 
 {% endblock %}
