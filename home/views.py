@@ -124,13 +124,20 @@ def logout_user(request):
 def baza(request):
     def getDataFromBaza():
         return Baza.objects.all()
-    def sendToTemplateForAdmin():
-        return {
-            'bazaForm': BazaForm,
-            'getBaza': getDataFromBaza()
-        }
+    
+    sendToTemplateForAdmin = {
+        'bazaForm': BazaForm,
+        'getBaza': getDataFromBaza(),
+        'residue': 0
+    }
+    for item in getDataFromBaza():
+        sendToTemplateForAdmin['residue'] += (item.kgOrg * item.price)
+        
+    
+    sendToTemplateForAdmin['residue'] = int(sendToTemplateForAdmin['residue'])
+    
     if (request.method == 'GET'):
-        return checkIsAdmin(request, 'html/realBaza.html',sendToTemplateForAdmin(), {})
+        return checkIsAdmin(request, 'html/realBaza.html',sendToTemplateForAdmin, {})
     elif request.method == 'POST':
         saveData = BazaForm(request.POST)
         if saveData.is_valid():

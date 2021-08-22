@@ -89,6 +89,8 @@
         <div class="text-primary">Bazaga ma'lumot kiritilmaganligi uchun jadval vaqtincha sizga ko'rinmaydi</div>
         {% endif %}
     </div>
+
+    <div class="totalSumInBaza mt-3">Bazada <span class="numMusk bd-green">{{residue}}</span> so'mlik yuk mavjud</div>
     {% else %}
     <div class="text-danger">Bu bo'limga vaqat admin kirish huquqiga ega</div>
     <a href="{% url 'home' %}" class="btn btn-outline-success mt-4">Bosh sahifaga qaytish</a>
