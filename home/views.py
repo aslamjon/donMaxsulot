@@ -147,6 +147,7 @@ def baza(request):
             getData['error'] = "Ma'lumot kiritishda xotolik yuz berdi" 
             return checkIsAdmin(request, 'html/realBaza.html', getData, {})
 
+
 def editBaza(request, get_id):
     product = get_object_or_404(Baza, pk=get_id)
     if request.method == "GET":
@@ -185,6 +186,7 @@ def editBaza(request, get_id):
                 return redirect('baza')
     else:
         return redirect('baza')
+
 
 def deleteBaza(request, get_id):
     product = get_object_or_404(Baza, pk=get_id)
@@ -361,6 +363,65 @@ def deleteBase(request, product_id):
     if request.method == 'POST':
         blog.delete()
         return redirect('base')
+
+def returnProduct(request, returnProduct_id):
+    product = get_object_or_404(mainBase, pk=returnProduct_id)
+    dataFromRealBaza = Baza.objects.all()
+    if request.method == 'POST':
+        productFromRealBaza = dataFromRealBaza.filter(typeOfProduct__exact=product.typeOfProduct, price__exact=product.insidePrice)
+        print(product.kg, 'kg')
+        print(product.totalSum, 'total')
+        print(product.debt)
+        print(product.qarzSum, 'qarz')
+        def checkDebtAndCalculate(sum):
+            if product.debt:
+                product.qarzSum -= sum
+        
+        def returnError(message):
+            form = Basee(instance=product)
+            sendToTemplate = {
+                    'product': product, 
+                    'form': form, 'LendDebt': LendDebt,
+                    'formId': returnProduct_id,
+                    'error': message
+            }
+            return checkIsAdmin(request, 'html/edit.html', sendToTemplate, {"a": 'a'})
+        # agar bazada shunaqa maxsulot bo'lsa
+        if bool(productFromRealBaza):
+            if (product.kg - float(request.POST['howMuch'])) >= 0:
+                productFromRealBaza[0].kgOrg += float(request.POST['howMuch'])
+                product.kg -= float(request.POST['howMuch'])
+                muchSum = int(request.POST['howMuch']) * product.outsidePrice
+                product.totalSum -= muchSum
+                # agar qarzi bo'lsa uni ayrib tashlash uchun
+                checkDebtAndCalculate(muchSum)
+                productFromRealBaza[0].save()
+            else:
+                return returnError("Yetarlicha maxsulot mavjud emas. Iltimos qaytadan urinib ko'ring")
+        else:
+            if (product.kg - float(request.POST['howMuch'])) >= 0:
+                # Creata data bacause there is no data in the Baza
+                Baza.objects.create(typeOfProduct=product.typeOfProduct, 
+                kgOrg=float(0), kg=float(request.POST['howMuch']), 
+                price=product.insidePrice, totalSum=(int(request.POST['howMuch']) * product.insidePrice), 
+                byWhom=product.byWhom, debt=False)
+
+                product.kg -= float(request.POST['howMuch'])
+                muchSum = int(request.POST['howMuch']) * product.outsidePrice
+                product.totalSum -= muchSum
+                # agar qarzi bo'lsa uni ayrib tashlash uchun
+                checkDebtAndCalculate(muchSum)
+            else:
+                return returnError("Yetarlicha maxsulot mavjud emas. Iltimos qaytadan urinib ko'ring")
+        product.save()
+        if product.kg == float(0):
+            product.delete()
+        print(product.kg, 'kg')
+        print(product.totalSum, 'total')
+        print(product.debt)
+        print(product.qarzSum, 'qarz')
+
+    return redirect('base')
 # *********************- TakeMoney -******************************
 def addMoneyWhenTakeMoney(request):
     if request.method == "GET":

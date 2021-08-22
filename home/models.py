@@ -7,6 +7,7 @@ class Home(models.Model):
     price = models.IntegerField(default=0)
     showToAgent = models.IntegerField(default=0)
 
+# Bozor
 class mainBase(models.Model):
     typeOfProduct = models.TextField()
     kg = models.FloatField(default=0)
@@ -23,7 +24,7 @@ class mainBase(models.Model):
     oxirgiQarzBerganVaqti = models.DateField(null=True, auto_now_add=False)
     totalLend = models.IntegerField(null=True, default=0)
 
-# Bozor
+# Savdo tochkasi
 class Qarz(models.Model):
     typeOfProduct = models.TextField(null=True)
     kg = models.FloatField(null=True, default=0)

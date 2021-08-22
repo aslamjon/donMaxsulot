@@ -5,10 +5,39 @@
 {% block content %}
 {% if user.is_authenticated and isAdmin %}
 <div class="edit containerCustom">
-    <button type="button" class="btn btn-outline-warning mb-3" data-toggle="collapse" data-target="#changeMain">Asosiy
-        qsimni
-        o'zgartirish</button>
-    <div class="row">
+    <div class="text-danger mb-2">{{error}}</div>
+    <button type="button" class="btn btn-outline-warning " data-toggle="collapse" data-target="#changeMain">
+        Asosiy qsimni o'zgartirish
+    </button>
+    <button type="button" class="btn btn-outline-danger ml-3" data-toggle="modal" data-target="#returnProductForm">
+        Mahsulotni qaytarish
+    </button> 
+
+    <!-- The Modal -->
+    <div class="modal baseModal" id="returnProductForm">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">Bazaga Mahsulot Qaytarish</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="" action="{% url 'returnProduct' formId %}" method="POST">
+                        {% csrf_token %}
+                        <input type="number" name="howMuch" class="form-control mb-3" placeholder="Qancha qaytarmoqchisiz ?">
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button type="submit" id="" class="btn btn-outline-dark">Qaytarish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The Row -->
+    <div class="row mt-3">
         <div class="col-md-6">
             <div class="card collapse" id="changeMain">
                 <div class="changed">
@@ -70,11 +99,10 @@
             {% endif %}
         </div>
     </div>
-
 </div>
 
 {% else %}
-<div class="">Tizimga kirilmagan tizimga kirib qaytadan urunib ko'ring</div>
+<div class="">Tizimga kirilmagan yoki siz admin emasiz qaytadan urunib ko'ring</div>
 {% endif %}
 
 

@@ -17,39 +17,14 @@ from django.contrib import admin
 from django.urls import path, include, re_path
 from django.conf.urls.static import static
 from django.conf import settings
-from home import views
-from home.views import base, editItem, agentTake, editAgent, delete, deleteHome, editHome, payToAgent, deleteBase, baza, editBaza, deleteBaza, addAgent, deleteAgent, addRealBazaWhenHaveProducts, addMoneyWhenTakeMoney, deleteAddMoneyWhenTakeMoney
 
 from django.views.static import serve
 from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.home, name='home'),
-    path('delete/<int:home_id>', deleteHome, name='deleteHome'),
-    path('<int:home_id>', editHome, name='editHome'),
-    # Note Auth
-    path('signup/', views.signup_user, name='signup'),
-    path('logout/', views.logout_user, name='logout'),
-    path('login/', views.login_user, name='login'),
-    # Note Baza
-    path('baza/', baza, name='baza'),
-    path('baza/<int:get_id>', editBaza, name='editBaza'),
-    path('baza/delete/<int:get_id>', deleteBaza, name='deleteBaza'),
-    path('baza/add/<int:product_id>', addRealBazaWhenHaveProducts, name='addRealBazaWhenHaveProducts'),
-    # Note base
-    path('bozor/', base, name='base'),
-    path('bozor/addMoney', addMoneyWhenTakeMoney, name='addMoneyWhenTakeMoney'),
-    path('bozor/addMoney/delete/<int:block_id>', deleteAddMoneyWhenTakeMoney, name='deleteAddMoneyWhenTakeMoney'),
-    path('bozor/<int:product_id>', editItem, name='editItem'),
-    path('bozor/delete/<int:product_id>', deleteBase, name='deleteBase'),
-    # Savdo tochkasi
-    path('savdo/', agentTake, name='agentTake'),
-    path('savdo/<int:agent_id>', editAgent, name='editAgent'),
-    path('savdo/delete/<int:agent_id>', delete, name='delete'),
-    path('savdo/payToAgent', payToAgent, name='payToAgent'),
-    path('addAgent/', addAgent, name='addAgent'),
-    path('addAgent/deleteAgent/<int:deleteAgent_id>', deleteAgent, name='deleteAgent'),
+    path('', include('home.urls')),
+    
     url(r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     url(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
 ]
