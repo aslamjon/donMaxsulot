@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import home, signup_user, logout_user, login_user, base, editItem, agentTake, editAgent, delete, deleteHome, editHome, payToAgent, deleteBase, baza, editBaza, deleteBaza, addAgent, deleteAgent, addRealBazaWhenHaveProducts, addMoneyWhenTakeMoney, deleteAddMoneyWhenTakeMoney, returnProduct
+from .views import home, signup_user, logout_user, login_user, base, editItem, agentTake, editAgent, delete, deleteHome, editHome, payToAgent, deleteBase, baza, editBaza, deleteBaza, addAgent, deleteAgent, addRealBazaWhenHaveProducts, addMoneyWhenTakeMoney, deleteAddMoneyWhenTakeMoney, returnProduct, returnProductForSavod
 
 urlpatterns = [
     path('', home, name='home'),
@@ -24,6 +24,7 @@ urlpatterns = [
     # Savdo tochkasi
     path('savdo/', agentTake, name='agentTake'),
     path('savdo/<int:agent_id>', editAgent, name='editAgent'),
+    path('savdo/return/<int:returnProduct_id>', returnProductForSavod, name='returnProductForSavod'),
     path('savdo/delete/<int:agent_id>', delete, name='delete'),
     path('savdo/payToAgent', payToAgent, name='payToAgent'),
     path('addAgent/', addAgent, name='addAgent'),

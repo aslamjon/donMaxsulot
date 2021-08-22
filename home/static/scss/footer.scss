@@ -1,0 +1,60 @@
+footer {
+    background-color: #343a40;
+    padding: 20px;
+    margin-top: 20px;
+    .logo {
+        color: #fafafa;
+        font-size: 20px;
+        text-decoration: none;
+    }
+    ul {
+        li {
+            a {
+                color: #fafafad0;
+                transition: 0.3s;
+            }
+        }
+        .tel, .telegram  {
+            display: flex;
+            align-items: center;
+            span {
+                &:first-child {
+                    width: 20px;
+                    height: 20px;
+                    display: inline-block;
+                    mask-image: url('../img/phone-call.svg');
+                    -webkit-mask-image: url('../img/phone-call.svg');
+                    background: #fafafad0;
+                    margin-right: 5px;
+                }
+                &:last-child {
+                    color: #fafafad0;
+                    text-decoration: none;
+                }
+            }
+        }
+        .telegram {
+            margin-top: 10px;
+            a {
+                &:hover {
+                    text-decoration: none;
+                }
+            }
+            span {
+                &:first-child {
+                    mask-image: url('../img/telegram.svg');
+                    -webkit-mask-image: url('../img/telegram.svg');
+                    background: #007bff;
+                }
+            }
+        }
+    }
+}
+@media (max-width: 767px) {
+    footer {
+        .col-md-4 {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}

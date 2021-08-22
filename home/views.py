@@ -364,19 +364,49 @@ def deleteBase(request, product_id):
         blog.delete()
         return redirect('base')
 
+def returnProductFun(request, productBase, returnBase, returnError, returnProduct_id, insidePrice, outsidePrice, redirectText):
+    product = get_object_or_404(productBase, pk=returnProduct_id)
+    dataFromRealBaza = returnBase.objects.all()
+    productFromRealBaza = dataFromRealBaza.filter(typeOfProduct__exact=product.typeOfProduct, price__exact=getattr(product, insidePrice))
+    def checkDebtAndCalculate(sum):
+        if product.debt:
+            product.qarzSum -= sum
+
+    # if there is product
+    if bool(productFromRealBaza):
+        if (product.kg - float(request.POST['howMuch'])) >= 0:
+            productFromRealBaza[0].kgOrg += float(request.POST['howMuch'])
+            product.kg -= float(request.POST['howMuch'])
+            muchSum = int(request.POST['howMuch']) * getattr(product, outsidePrice)
+            product.totalSum -= muchSum
+            # if there is debt then calculate totalSum
+            checkDebtAndCalculate(muchSum)
+            productFromRealBaza[0].save()
+        else:
+            return returnError("Yetarlicha maxsulot mavjud emas. Iltimos qaytadan urinib ko'ring")
+    else:
+        if (product.kg - float(request.POST['howMuch'])) >= 0:
+            # Creata data bacause there is no data in the Baza
+            returnBase.objects.create(typeOfProduct=product.typeOfProduct, 
+            kgOrg=float(request.POST['howMuch']), kg=float(0), 
+            price=getattr(product, insidePrice), totalSum=(int(request.POST['howMuch']) * getattr(product, insidePrice)), 
+            byWhom=product.byWhom, debt=False)
+
+            product.kg -= float(request.POST['howMuch'])
+            muchSum = int(request.POST['howMuch']) * getattr(product, outsidePrice)
+            product.totalSum -= muchSum
+            # if there is debt
+            checkDebtAndCalculate(muchSum)
+        else:
+            return returnError("Yetarlicha maxsulot mavjud emas. Iltimos qaytadan urinib ko'ring")
+    product.save()
+    if product.kg == float(0):
+        product.delete()
+    return redirect(redirectText)
+
 def returnProduct(request, returnProduct_id):
     product = get_object_or_404(mainBase, pk=returnProduct_id)
-    dataFromRealBaza = Baza.objects.all()
     if request.method == 'POST':
-        productFromRealBaza = dataFromRealBaza.filter(typeOfProduct__exact=product.typeOfProduct, price__exact=product.insidePrice)
-        print(product.kg, 'kg')
-        print(product.totalSum, 'total')
-        print(product.debt)
-        print(product.qarzSum, 'qarz')
-        def checkDebtAndCalculate(sum):
-            if product.debt:
-                product.qarzSum -= sum
-        
         def returnError(message):
             form = Basee(instance=product)
             sendToTemplate = {
@@ -386,42 +416,8 @@ def returnProduct(request, returnProduct_id):
                     'error': message
             }
             return checkIsAdmin(request, 'html/edit.html', sendToTemplate, {"a": 'a'})
-        # agar bazada shunaqa maxsulot bo'lsa
-        if bool(productFromRealBaza):
-            if (product.kg - float(request.POST['howMuch'])) >= 0:
-                productFromRealBaza[0].kgOrg += float(request.POST['howMuch'])
-                product.kg -= float(request.POST['howMuch'])
-                muchSum = int(request.POST['howMuch']) * product.outsidePrice
-                product.totalSum -= muchSum
-                # agar qarzi bo'lsa uni ayrib tashlash uchun
-                checkDebtAndCalculate(muchSum)
-                productFromRealBaza[0].save()
-            else:
-                return returnError("Yetarlicha maxsulot mavjud emas. Iltimos qaytadan urinib ko'ring")
-        else:
-            if (product.kg - float(request.POST['howMuch'])) >= 0:
-                # Creata data bacause there is no data in the Baza
-                Baza.objects.create(typeOfProduct=product.typeOfProduct, 
-                kgOrg=float(0), kg=float(request.POST['howMuch']), 
-                price=product.insidePrice, totalSum=(int(request.POST['howMuch']) * product.insidePrice), 
-                byWhom=product.byWhom, debt=False)
+        return returnProductFun(request, mainBase, Baza, returnError, returnProduct_id, 'insidePrice', 'outsidePrice', 'base')
 
-                product.kg -= float(request.POST['howMuch'])
-                muchSum = int(request.POST['howMuch']) * product.outsidePrice
-                product.totalSum -= muchSum
-                # agar qarzi bo'lsa uni ayrib tashlash uchun
-                checkDebtAndCalculate(muchSum)
-            else:
-                return returnError("Yetarlicha maxsulot mavjud emas. Iltimos qaytadan urinib ko'ring")
-        product.save()
-        if product.kg == float(0):
-            product.delete()
-        print(product.kg, 'kg')
-        print(product.totalSum, 'total')
-        print(product.debt)
-        print(product.qarzSum, 'qarz')
-
-    return redirect('base')
 # *********************- TakeMoney -******************************
 def addMoneyWhenTakeMoney(request):
     if request.method == "GET":
@@ -453,6 +449,7 @@ def prev_month(date=date.today()):
         except ValueError:
             return prev_month(date=date.replace(day=date.day-1))
 
+# *********************- Savdo -******************************
 
 def agentTake(request):
     getAgentsData = Qarz.objects.all()
@@ -539,7 +536,13 @@ def editAgent(request, agent_id):
     if request.method == "GET":
         form = QarzForm(instance=agent)
         form2 = InputQarzForm(instance=agent)
-        return render(request, 'html/editAgent.html', {'error': False, 'isAdmin': True, 'agent': agent, 'form': form, 'form2': form2, 'formId': agent_id, 'totalLend': agent.totalLend})
+        content = {
+            'error': False, 'isAdmin': True, 
+            'agent': agent, 'form': form, 
+            'form2': form2, 'formId': agent_id, 
+            'totalLend': agent.totalLend
+        }
+        return render(request, 'html/editAgent.html', content)
     elif request.method == 'POST':
         form11 = QarzForm(instance=agent)
         form22 = InputQarzForm(instance=agent)
@@ -603,6 +606,21 @@ def addRealBazaWhenHaveProducts(request, product_id):
         product.save()
     return redirect('baza')
 
+def returnProductForSavod(request, returnProduct_id):
+    product = get_object_or_404(Qarz, pk=returnProduct_id)
+    if request.method == 'POST':
+        def returnError(message):
+            form = QarzForm(instance=product)
+            form2 = InputQarzForm(instance=product)
+            content = {
+                'errorr': message, 'error': False,
+                'isAdmin': True, 
+                'agent': product, 'form': form, 
+                'form2': form2, 'formId': returnProduct_id, 
+                'totalLend': product.totalLend
+            }
+            return render(request, 'html/editAgent.html', content)
+        return returnProductFun(request, Qarz, Baza, returnError, returnProduct_id, 'orginalPrice', 'price', 'agentTake')
 
 def payToAgent(request):
     if request.method == 'POST':

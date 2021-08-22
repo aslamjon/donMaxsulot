@@ -41,6 +41,29 @@ $(function() {
         total_amount()
         $('.amount').mask("#,###",{reverse: true});
     })
+    
+    let minsueFromScroll = 145
+    $(window).on('scroll', function(e) {
+        let scrollHeight = (document.body.offsetHeight - window.innerHeight)
+        if (window.scrollY >= 200 && (window.scrollY < scrollHeight)) {
+            $('.toBottom')[0].style.opacity = 1;
+            $('.toBottom')[0].style.bottom = '20px';
+            $('.toBottom')[0].style.transform = 'rotate(0deg)';
+            $('.toBottom')[0].onclick = function() {
+                window.scrollTo(0, scrollHeight)
+            }
+        } else if (window.scrollY <= 200) {
+            $('.toBottom')[0].style.opacity = 0;
+            $('.toBottom')[0].style.bottom = '-40px';
+        } else if (window.scrollY >= scrollHeight - minsueFromScroll) {
+            $('.toBottom')[0].style.transform = 'rotate(180deg)';
+            $('.toBottom')[0].onclick = function() {
+                // window.scrollTo(0, scrollHeight)
+                document.body.scrollIntoView()
+            }
+        }
+    })
+    
 })
 function isNumber(n) { return !isNaN(parseFloat(n)) && !isNaN(n - 0) }
 

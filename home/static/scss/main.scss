@@ -10,10 +10,32 @@ body {
     overflow-x: hidden;
     font-family: "Roboto-Black", sans-serif;
     background-color: #fafafa;
+    position: relative;
 }
 .containerCustom {
     margin: 0 30px;
     position: relative;
+}
+.toBottom {
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    background-color: #343a40ec;
+    color: #fafafa;
+    position: fixed;
+    bottom: -40px;
+    right: 20px;
+    font-weight: 900;
+    font-size: 18px;
+    border-radius: 30%;
+    cursor: pointer;
+    transition: 0.3s;
+    opacity: 0;
+    border: 1px solid #fafafa;
+    &:hover {
+        background-color: #343a40d8;
+        color: #fafafa;
+    }
 }
 // mask
 .icon {
@@ -45,3 +67,4 @@ body {
 @import "editAgent";
 @import "paidToAgent";
 @import "realBaza";
+@import "footer";

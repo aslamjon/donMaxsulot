@@ -83,7 +83,51 @@
     {% block content %}
 
     {% endblock %}
+    <div class="toBottom">&#8595;</div>
 
+    <footer>
+        <div class="containerCustom">
+            <div class="row">
+                <div class="col-md-4">
+                    <a class="logo">
+                        DON MAXSULOT
+                    </a>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-unstyled">
+                        <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'baza' %}">Baza</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'base' %}">Bozor</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'agentTake' %}">Savdo tochkasi</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <ul class="list-unstyled">
+                        <li><div class="tel">
+                            <span class="icon"></span>
+                            <span>+998 (98) 573-81-00</span>
+                        </div></li>
+                        <li>
+                            <div class="telegram">
+                                <a href="https://t.me/optumdon">
+                                    <span class="icon"></span>
+                                    <span>Optum don mahsulotlari</span>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script src="{% static 'js/jquery-3.5.1.slim.min.js' %}"></script>
     <script src="{% static 'js/jquery.mask.min.js' %}"></script>
     <script src="{% static 'js/popper.min.js' %}"></script>

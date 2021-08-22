@@ -1,16 +1,42 @@
 @font-face {
   font-family: "Roboto-Black";
-  src: url("../Roboto/Roboto-Black.ttf") format("truetype"); }
+  src: url("../Roboto/Roboto-Black.ttf") format("truetype");
+}
 body {
   margin: 0;
   padding: 0;
   overflow-x: hidden;
   font-family: "Roboto-Black", sans-serif;
-  background-color: #fafafa; }
+  background-color: #fafafa;
+  position: relative;
+}
 
 .containerCustom {
   margin: 0 30px;
-  position: relative; }
+  position: relative;
+}
+
+.toBottom {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  background-color: #343a40ec;
+  color: #fafafa;
+  position: fixed;
+  bottom: -40px;
+  right: 20px;
+  font-weight: 900;
+  font-size: 18px;
+  border-radius: 30%;
+  cursor: pointer;
+  transition: 0.3s;
+  opacity: 0;
+  border: 1px solid #fafafa;
+}
+.toBottom:hover {
+  background-color: #343a40d8;
+  color: #fafafa;
+}
 
 .icon {
   width: 20px;
@@ -23,217 +49,348 @@ body {
   mask-repeat: no-repeat;
   -webkit-mask-position: center center;
   -webkit-mask-size: 90%;
-  -webkit-mask-repeat: no-repeat; }
+  -webkit-mask-repeat: no-repeat;
+}
 
 .bd-green {
-  color: #198754; }
+  color: #198754;
+}
 
 nav .navbar-toggler {
-  outline: none; }
+  outline: none;
+}
 nav .navbar-collapse ul li a {
-  cursor: pointer; }
+  cursor: pointer;
+}
 
 .text-bold {
-  font-weight: bold; }
+  font-weight: bold;
+}
 
 .homePage .img {
   width: 100%;
-  height: 300px; }
+  height: 300px;
+}
 .homePage #sendHomeForm {
-  position: relative; }
-  .homePage #sendHomeForm input {
-    margin: 15px 0; }
-    .homePage #sendHomeForm input:first-child {
-      margin: 0;
-      position: absolute; }
-  .homePage #sendHomeForm label {
-    margin: 0; }
+  position: relative;
+}
+.homePage #sendHomeForm input {
+  margin: 15px 0;
+}
+.homePage #sendHomeForm input:first-child {
+  margin: 0;
+  position: absolute;
+}
+.homePage #sendHomeForm label {
+  margin: 0;
+}
 
 .close {
   border: 0;
-  outline: none; }
-  .close:focus, .close:active {
-    border: 0;
-    outline: none; }
+  outline: none;
+}
+.close:focus, .close:active {
+  border: 0;
+  outline: none;
+}
 
 .editHome {
   display: flex;
-  justify-content: center; }
-  .editHome .card {
-    max-width: 500px; }
-    .editHome .card form input {
-      margin: 10px 0; }
+  justify-content: center;
+}
+.editHome .card {
+  max-width: 500px;
+}
+.editHome .card form input {
+  margin: 10px 0;
+}
 
 .base {
-  margin-top: 20px; }
-  .base .baseModal form label {
-    margin: 5px; }
-  .base .baseModal form input {
-    margin: 10px 0; }
-  .base .baseModal form #id_byWhom {
-    margin-top: 0; }
-  .base .baseTabel {
-    margin-top: 20px; }
-    .base .baseTabel th {
-      padding: 5px 10px;
-      text-align: center; }
-    .base .baseTabel tr {
-      box-shadow: -3px 0px 15px -8px grey; }
-      .base .baseTabel tr:first-child {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px; }
-      .base .baseTabel tr:last-child {
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px; }
-      .base .baseTabel tr td {
-        text-align: center;
-        border-left: 1px solid grey;
-        border-right: 1px solid grey;
-        padding: 5px 10px; }
-        .base .baseTabel tr td:first-child {
-          border-left: none; }
-        .base .baseTabel tr td:last-child {
-          border-right: none; }
-        .base .baseTabel tr td .openEdit {
-          text-decoration: none; }
-      .base .baseTabel tr .inputToBase {
-        color: green; }
-      .base .baseTabel tr .outToBase {
-        color: red; }
-  .base .outTabelBase {
-    margin-top: 20px; }
-    .base .outTabelBase table tr td,
-    .base .outTabelBase table tr th {
-      padding: 5px;
-      text-align: center; }
-    .base .outTabelBase table tr td {
-      border: 1px solid #bdbdbd; }
-      .base .outTabelBase table tr td:first-child {
-        border-left: none; }
-      .base .outTabelBase table tr td:last-child {
-        border-right: none; }
+  margin-top: 20px;
+}
+.base .baseModal form label {
+  margin: 5px;
+}
+.base .baseModal form input {
+  margin: 10px 0;
+}
+.base .baseModal form #id_byWhom {
+  margin-top: 0;
+}
+.base .baseTabel {
+  margin-top: 20px;
+}
+.base .baseTabel th {
+  padding: 5px 10px;
+  text-align: center;
+}
+.base .baseTabel tr {
+  box-shadow: -3px 0px 15px -8px grey;
+}
+.base .baseTabel tr:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.base .baseTabel tr:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.base .baseTabel tr td {
+  text-align: center;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  padding: 5px 10px;
+}
+.base .baseTabel tr td:first-child {
+  border-left: none;
+}
+.base .baseTabel tr td:last-child {
+  border-right: none;
+}
+.base .baseTabel tr td .openEdit {
+  text-decoration: none;
+}
+.base .baseTabel tr .inputToBase {
+  color: green;
+}
+.base .baseTabel tr .outToBase {
+  color: red;
+}
+.base .outTabelBase {
+  margin-top: 20px;
+}
+.base .outTabelBase table tr td,
+.base .outTabelBase table tr th {
+  padding: 5px;
+  text-align: center;
+}
+.base .outTabelBase table tr td {
+  border: 1px solid #bdbdbd;
+}
+.base .outTabelBase table tr td:first-child {
+  border-left: none;
+}
+.base .outTabelBase table tr td:last-child {
+  border-right: none;
+}
 
 @media (max-width: 1182px) {
   .base .outTabel {
     overflow-x: auto;
-    padding: 0 2px; }
+    padding: 0 2px;
+  }
   .base .baseTabel {
-    width: 1130px; } }
+    width: 1130px;
+  }
+}
 @media (max-width: 908px) {
   .base .outTabelBase table {
-    width: 848px; } }
+    width: 848px;
+  }
+}
 .edit {
-  padding: 50px 0; }
-  .edit .card {
-    padding: 15px 20px;
-    width: 100%;
-    border-radius: 10px;
-    border: none;
-    box-shadow: 0 0 10px #dfdfdf; }
-    .edit .card .changed {
-      display: flex;
-      justify-content: flex-end; }
-      .edit .card .changed .alert {
-        display: inline-block;
-        margin-bottom: 0;
-        padding: 8px 16px; }
-    .edit .card form label {
-      margin: 5px; }
-    .edit .card form #subBtn {
-      margin-top: 16px; }
-    .edit .card form #id_oxirgiQarzBerganVaqti {
-      margin: 10px 0; }
+  padding: 50px 0;
+}
+.edit .card {
+  padding: 15px 20px;
+  width: 100%;
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 0 10px #dfdfdf;
+}
+.edit .card .changed {
+  display: flex;
+  justify-content: flex-end;
+}
+.edit .card .changed .alert {
+  display: inline-block;
+  margin-bottom: 0;
+  padding: 8px 16px;
+}
+.edit .card form label {
+  margin: 5px;
+}
+.edit .card form #subBtn {
+  margin-top: 16px;
+}
+.edit .card form #id_oxirgiQarzBerganVaqti {
+  margin: 10px 0;
+}
 
 .agentTake {
   margin-bottom: 50px;
-  height: 100vh; }
-  .agentTake #enterForm input {
-    margin: 10px 0; }
-  .agentTake #enterForm #id_byWhom {
-    margin: 0 0 10px 0; }
-  .agentTake #payAgentForm input {
-    margin: 20px 0; }
-  .agentTake .outTotalAgent {
-    bottom: 30px;
-    overflow-x: auto; }
-    .agentTake .outTotalAgent .TotalAgentTabel {
-      width: 900px; }
+}
+.agentTake #enterForm input {
+  margin: 10px 0;
+}
+.agentTake #enterForm #id_byWhom {
+  margin: 0 0 10px 0;
+}
+.agentTake #payAgentForm input {
+  margin: 20px 0;
+}
+.agentTake .outTotalAgent {
+  bottom: 30px;
+  overflow-x: auto;
+}
+.agentTake .outTotalAgent .TotalAgentTabel {
+  width: 900px;
+}
 
 @media (max-width: 1188px) {
   .agentTake .outAgentTabel {
     overflow-x: auto;
-    padding: 0 2px; }
+    padding: 0 2px;
+  }
   .agentTake .agentTabel {
-    width: 1128px; } }
+    width: 1128px;
+  }
+}
 .editAgent #enterForm label {
-  margin: 5px; }
+  margin: 5px;
+}
 .editAgent .card {
-  padding: 20px; }
-  .editAgent .card #totalLend {
-    text-align: right; }
+  padding: 20px;
+}
+.editAgent .card #totalLend {
+  text-align: right;
+}
 
 .paidAgent .outPaidAgentTable {
   display: flex;
   justify-content: center;
   overflow-x: auto;
-  padding: 5px; }
-  .paidAgent .outPaidAgentTable table {
-    margin-top: 20px;
-    box-shadow: 0 0 10px 1px #cccccc;
-    border-radius: 10px; }
-    .paidAgent .outPaidAgentTable table tr td,
-    .paidAgent .outPaidAgentTable table tr th {
-      padding: 5px 10px;
-      text-align: center; }
-    .paidAgent .outPaidAgentTable table tr td {
-      border: 1px solid #dbdbdb; }
-      .paidAgent .outPaidAgentTable table tr td:first-child {
-        border-left: none; }
-      .paidAgent .outPaidAgentTable table tr td:last-child {
-        border-right: none; }
+  padding: 5px;
+}
+.paidAgent .outPaidAgentTable table {
+  margin-top: 20px;
+  box-shadow: 0 0 10px 1px #cccccc;
+  border-radius: 10px;
+}
+.paidAgent .outPaidAgentTable table tr td,
+.paidAgent .outPaidAgentTable table tr th {
+  padding: 5px 10px;
+  text-align: center;
+}
+.paidAgent .outPaidAgentTable table tr td {
+  border: 1px solid #dbdbdb;
+}
+.paidAgent .outPaidAgentTable table tr td:first-child {
+  border-left: none;
+}
+.paidAgent .outPaidAgentTable table tr td:last-child {
+  border-right: none;
+}
 
 @media (max-width: 700px) {
   .paidAgent .outPaidAgentTable table {
-    width: 650px; } }
+    width: 650px;
+  }
+}
 .baza {
-  margin-top: 20px; }
-  .baza .bazaModal form input {
-    margin: 10px 0; }
-  .baza .bazaModal form #id_byWhom {
-    margin-top: 0; }
-  .baza .outBazaTable {
-    overflow-x: auto;
-    margin-top: 30px; }
-    .baza .outBazaTable table th {
-      padding: 5px 10px;
-      text-align: center; }
-    .baza .outBazaTable table tr {
-      box-shadow: -3px 0px 15px -8px grey; }
-      .baza .outBazaTable table tr:first-child {
-        border-top-left-radius: 10px;
-        border-top-right-radius: 10px; }
-      .baza .outBazaTable table tr:last-child {
-        border-bottom-left-radius: 10px;
-        border-bottom-right-radius: 10px; }
-      .baza .outBazaTable table tr td {
-        text-align: center;
-        border-left: 1px solid grey;
-        border-right: 1px solid grey;
-        padding: 5px 10px; }
-        .baza .outBazaTable table tr td:first-child {
-          border-left: none;
-          text-transform: capitalize; }
-        .baza .outBazaTable table tr td:last-child {
-          border-right: none; }
-        .baza .outBazaTable table tr td .openEdit {
-          text-decoration: none; }
-      .baza .outBazaTable table tr .inputToBase {
-        color: green; }
-      .baza .outBazaTable table tr .outToBase {
-        color: red; }
+  margin-top: 20px;
+}
+.baza .bazaModal form input {
+  margin: 10px 0;
+}
+.baza .bazaModal form #id_byWhom {
+  margin-top: 0;
+}
+.baza .outBazaTable {
+  overflow-x: auto;
+  margin-top: 30px;
+}
+.baza .outBazaTable table th {
+  padding: 5px 10px;
+  text-align: center;
+}
+.baza .outBazaTable table tr {
+  box-shadow: -3px 0px 15px -8px grey;
+}
+.baza .outBazaTable table tr:first-child {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.baza .outBazaTable table tr:last-child {
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+.baza .outBazaTable table tr td {
+  text-align: center;
+  border-left: 1px solid grey;
+  border-right: 1px solid grey;
+  padding: 5px 10px;
+}
+.baza .outBazaTable table tr td:first-child {
+  border-left: none;
+  text-transform: capitalize;
+}
+.baza .outBazaTable table tr td:last-child {
+  border-right: none;
+}
+.baza .outBazaTable table tr td .openEdit {
+  text-decoration: none;
+}
+.baza .outBazaTable table tr .inputToBase {
+  color: green;
+}
+.baza .outBazaTable table tr .outToBase {
+  color: red;
+}
 
 @media (max-width: 1100px) {
   .baza .outBazaTable table {
-    width: 1040px; } }
+    width: 1040px;
+  }
+}
+footer {
+  background-color: #343a40;
+  padding: 20px;
+  margin-top: 20px;
+}
+footer .logo {
+  color: #fafafa;
+  font-size: 20px;
+  text-decoration: none;
+}
+footer ul li a {
+  color: #fafafad0;
+  transition: 0.3s;
+}
+footer ul .tel, footer ul .telegram {
+  display: flex;
+  align-items: center;
+}
+footer ul .tel span:first-child, footer ul .telegram span:first-child {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  mask-image: url("../img/phone-call.svg");
+  -webkit-mask-image: url("../img/phone-call.svg");
+  background: #fafafad0;
+  margin-right: 5px;
+}
+footer ul .tel span:last-child, footer ul .telegram span:last-child {
+  color: #fafafad0;
+  text-decoration: none;
+}
+footer ul .telegram {
+  margin-top: 10px;
+}
+footer ul .telegram a:hover {
+  text-decoration: none;
+}
+footer ul .telegram span:first-child {
+  mask-image: url("../img/telegram.svg");
+  -webkit-mask-image: url("../img/telegram.svg");
+  background: #007bff;
+}
+
+@media (max-width: 767px) {
+  footer .col-md-4 {
+    display: flex;
+    justify-content: center;
+  }
+}
 
 /*# sourceMappingURL=style.css.map */
