@@ -145,6 +145,7 @@
             <tr>
                 <th>Sotilgan yuklar summasi</th>
                 <th>Sotilgan yuklar kg</th>
+                <th>Qarzlar</th>
                 <th>To'langan Qarzlar</th>
                 <th>Kutilayotgan foyda</th>
                 <th>Sotilgan yukning 5 % summasi</th>
@@ -152,7 +153,8 @@
             <tr>
                 <td><span class="numMusk">{{totalRes.priceSum}}</span> so'm</td>
                 <td><span class="">{{totalRes.kgSum}}</span> kg</td>
-                <td><span class="numMusk text-success">{{totalRes.debtSum}}</span> so'm</td>
+                <td><span class="numMusk text-danger">{{totalRes.debtSum}}</span> so'm</td>
+                <td><span class="numMusk text-success">{{totalRes.payDebtSum}}</span> so'm</td>
                 <td><span class="numMusk bd-green">{{totalRes.expectedBenefit}}</span> so'm</td>
                 <td>
                     {% if who %}

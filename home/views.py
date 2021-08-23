@@ -473,18 +473,21 @@ def agentTake(request):
             "priceSum": 0,
             "kgSum": 0,
             "debtSum": 0,
+            "payDebtSum": 0,
             "expectedBenefit": 0,
             "pratsent": 0
         }
         for i in range(len(first)):
             totalRes['priceSum'] += (first[i].kg * first[i].price)
             totalRes['kgSum'] += first[i].kg
-            totalRes['debtSum'] += second[i].totalLend
+            if first[i].debt:
+                totalRes['debtSum'] += first[i].totalSum
+            totalRes['payDebtSum'] += first[i].totalLend
             totalRes['expectedBenefit'] += ((first[i].kg * first[i].price) -
                                             (first[i].kg * first[i].orginalPrice))
             totalRes['pratsent'] += (first[i].kg * first[i].price)
         totalRes['priceSum'] = int(totalRes['priceSum'])
-        totalRes['debtSum'] = int(totalRes['debtSum'])
+        totalRes['payDebtSum'] = int(totalRes['payDebtSum'])
         totalRes['expectedBenefit'] = int(totalRes['expectedBenefit'])
         totalRes['pratsent'] = int(totalRes['pratsent'])
         return totalRes
