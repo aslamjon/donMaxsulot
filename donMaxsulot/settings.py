@@ -84,7 +84,6 @@ DATABASES = {
         'NAME': BASE_DIR / 'database/db.sqlite3',
     }
 }
-print(BASE_DIR)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
